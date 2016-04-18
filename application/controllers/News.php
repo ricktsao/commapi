@@ -101,11 +101,33 @@ class News extends REST_Controller {
 
     public function news_post()
     {
+		$comm_id = $this->input->post("comm_id",TRUE);
+		$r_row_count = $this->input->post("row_count",TRUE);		
+		$row_count = 100;
+		if( isNotNull($r_row_count) )
+		{
+			$row_count = $r_row_count;
+		}
+		
+		
+		if ( isNull($comm_id) ) 
+		{
+            $this->set_response([
+                'status' => FALSE,
+                'message' => '操作錯誤'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+        }
+		
+		
 		$ajax_ary = array();
-		$news_list = $this->c_model->GetList( "news" , "" ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
+		$news_list = $this->c_model->GetList( "news" , "comm_id = '".$comm_id."'" ,TRUE, $row_count , 1 , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
 		if($news_list["count"]==0)
 		{
-			
+			$this->response([
+						'status' => FALSE,
+						'message' => '找不到任何資訊'
+					], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 		}
 		else
 		{
@@ -114,6 +136,7 @@ class News extends REST_Controller {
 				
 				$tmp_data = array
 				(				
+					"sn"=> $news_info["sn"],
 					"title"=> $news_info["title"],
 					"content" => $news_info["content"],
 					"news_date" =>  showDateFormat($news_info["start_date"])					
@@ -122,13 +145,53 @@ class News extends REST_Controller {
 				array_push($ajax_ary,$tmp_data);
 			}
 			
-			
-		}
-
-
-        $this->set_response($ajax_ary, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
+			$this->set_response($ajax_ary, REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code			
+		}        
     }
 
+	
+	
+	public function news_detail_post()
+    {
+		$comm_id = $this->input->post("comm_id",TRUE);	
+		$news_sn = $this->input->post("news_sn",TRUE);	
+		
+		if ( isNull($comm_id) || isNull($news_sn)) 
+		{
+            $this->set_response([
+                'status' => FALSE,
+                'message' => '操作錯誤'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+        }
+		
+		
+		$ajax_ary = array();
+		$news_info = $this->c_model->GetList( "news" , "client_sn = '".$news_sn."' and comm_id = '".$comm_id."'" ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
+		if($news_info["count"]==0)
+		{
+			$this->response([
+						'status' => FALSE,
+						'message' => '找不到任何資訊'
+					], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+		}
+		else
+		{
+			$news_info = $news_info["data"][0];
+			
+			$ajax_ary = array
+			(				
+				"title"=> $news_info["title"],
+				"content" => $news_info["content"],
+				"news_date" =>  showDateFormat($news_info["start_date"])					
+			);
+			
+			
+			$this->set_response($ajax_ary, REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code			
+		}        
+    }
+	
+	
 
     public function users_delete($comm_id, $sn)
     {
