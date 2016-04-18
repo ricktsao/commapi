@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
-require APPPATH . '/libraries/REST_Controller.php';
+//require APPPATH . '/libraries/REST_Controller.php';
 
 /**
  * This is an example of a few basic user interaction methods you could use
@@ -26,13 +26,16 @@ class Rent extends REST_Controller {
 
         // Configure limits on our controller methods
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
-        $this->methods['rents_get']['limit'] = 500; // 500 requests per hour per user/key
-        $this->methods['rents_post']['limit'] = 100; // 100 requests per hour per user/key
-        $this->methods['rents_delete']['limit'] = 50; // 50 requests per hour per user/key
+        $this->methods['index_get']['limit'] = 500; // 500 requests per hour per user/key
+        $this->methods['index_post']['limit'] = 100; // 100 requests per hour per user/key
+        $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
-    public function rents_get($comm_id=NULL, $sn=NULL)
+    public function index_get()
     {
+		$comm_id = tryGetData('comm_id', $_GET, NULL);
+		$sn = tryGetData('sn', $_GET, NULL);
+
         if ( isNull($comm_id) ) {
 
             $this->set_response([
@@ -99,7 +102,7 @@ class Rent extends REST_Controller {
 		}
     }
 
-    public function rents_post($comm_id)
+    public function index_post($comm_id)
     {
         // $this->some_model->update_rent( ... );
         $message = [
@@ -114,22 +117,5 @@ class Rent extends REST_Controller {
     }
 
 
-    public function users_delete($comm_id, $sn)
-    {
-        // Validate the id.
-        if ($sn <= 0)
-        {
-            // Set the response and exit
-            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
-        }
-
-        // $this->some_model->delete_something($id);
-        $message = [
-            'sn' => $sn,
-            'message' => 'Deleted the resource'
-        ];
-
-        $this->set_response($message, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
-    }
 
 }
