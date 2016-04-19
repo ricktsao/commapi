@@ -29,8 +29,7 @@ class Sync extends CI_Controller {
 		
 		$arr_data = array
 		(   
-			 "comm_id" => tryGetData("comm_id",$edit_data)
-			, "parent_sn" => tryGetData("parent_sn",$edit_data,NULL)	
+			  "parent_sn" => tryGetData("parent_sn",$edit_data,NULL)	
 			, "title" => tryGetData("title",$edit_data)	
 			, "brief" => tryGetData("brief",$edit_data)
 			, "brief2" => tryGetData("brief2",$edit_data)	
@@ -49,23 +48,14 @@ class Sync extends CI_Controller {
 		);
 		
 		
-		if($this->it_model->updateData( "web_menu_content" , $arr_data, "sn =".$edit_data["sn"] ))
+		if($this->it_model->updateData( "web_menu_content" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
 		{					
 			echo '1';						
 		}
 		else 
 		{
-			echo '0';	
-		}
-		
-		
-		if( tryGetData("sn",$edit_data) != ''  )
-		{
-			
-			
-		}
-		else 
-		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
 			$arr_data["create_date"] =   date( "Y-m-d H:i:s" );
 			$content_sn = $this->it_model->addData( "web_menu_content" , $arr_data );
 			if($content_sn > 0)
@@ -75,22 +65,9 @@ class Sync extends CI_Controller {
 			else
 			{
 				echo '0';	
-			}
-			
+			}		
 		}
-		
-		
-		
-		/*
-		if($this->it_model->updateData( "web_menu_content" , $edit_data, "sn =".$edit_data["sn"] ))
-		{					
-			echo '1';				
-		}
-		else 
-		{
-			echo '0';	
-		}
-		*/
+	
 		
 	}
 	
