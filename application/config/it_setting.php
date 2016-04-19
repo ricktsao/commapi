@@ -138,7 +138,7 @@ $config['rent_type_array'] = array( 'a'=>'整層住家'
 								, 'e'=>'店面'
 								, 'f'=>'辦公'
 								);
-// 家具
+// 物件類型
 $config['house_type_array'] = array( 'a'=>'電梯大樓'
 								, 'b'=>'透天厝'
 								, 'c'=>'華廈'
