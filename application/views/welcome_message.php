@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div id="body">
 
 <div class="section" id="defining-the-api-user">
-<h3>住戶資訊</h3>
+<h3>住戶資訊  (參照 community_cloud.sys_user 資料表)</h3>
 <table border="1" class="docutils">
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Method</th>
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>POST</td>
+<tr class="row-odd"><td>POST</td>
 <td>/user/index/</td>
 <td class="left">comm_id : 社區ID<br /> id : 住戶ID <br /> app_id : 住戶App ID</td>
 <td>取得指定的住戶資訊<br /> (簡單個資與權限)</td>
@@ -110,16 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <td class="left">comm_id : 社區ID<br /> id : 住戶ID <br /> app_id : 住戶App ID</td>
 <td>住戶開通</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
+
 </tbody>
 </table>
 </div>
@@ -146,12 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <td class="left">comm_id : 社區ID<br /> sn : News編號</td>
 <td>取得指定的一則News</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr class="row-odd"><td>&nbsp;</td>
+<tr class="row-even"><td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -183,11 +169,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <td>/rent/index/</td>
 <td class="left">comm_id : 社區ID<br /> sn : 租屋資訊編號</td>
 <td>取得指定的一則租屋資訊</td>
-</tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>&nbsp;</td>
 <td>&nbsp;</td>
