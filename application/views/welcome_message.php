@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Welcome to CodeIgniter</title>
+    <title>富網通 EDOMA 社區API Url Structure</title>
 
     <style type="text/css">
 
@@ -14,9 +14,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     body {
         background-color: #FFF;
         margin: 40px;
-        font: 16px/20px normal Helvetica, Arial, sans-serif;
+        font-family: "微軟正黑體", Arial, sans-serif;
         color: #4F5155;
+		font-size: 14px;
         word-wrap: break-word;
+		
     }
 
     a {
@@ -50,6 +52,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         margin: 0 15px 0 15px;
     }
 
+    table{
+        border: 0px solid #D0D0D0;
+        width: 720px;
+    }
+
+    td, th {
+        border: 0px solid #D0D0D0;
+        padding: 6px;
+		background-color: #f2f2f2;
+		vertical-align : middle;text-align: center;
+		/*height: 45px;*/
+    }
+
     p.footer {
         text-align: right;
         font-size: 16px;
@@ -64,35 +79,129 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         border: 1px solid #D0D0D0;
         box-shadow: 0 0 8px #D0D0D0;
     }
+	.left {text-align: left; padding-left:60px;}
     </style>
 </head>
 <body>
 
 <div id="container">
-    <h1>Welcome to CodeIgniter!</h1>
+    <h1>API Url Structure</h1>
 
     <div id="body">
 
-        <h2><a href="<?php echo site_url('rest-server'); ?>">REST Server Tests</a></h2>
+<div class="section" id="defining-the-api-user">
+<h3>住戶資訊</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>POST</td>
+<td>/user/index/</td>
+<td class="left">comm_id : 社區ID<br /> id : 住戶ID <br /> app_id : 住戶App ID</td>
+<td>取得指定的住戶資訊<br /> (簡單個資與權限)</td>
+</tr>
+<tr class="row-even"><td>POST</td>
+<td>/user/activate/</td>
+<td class="left">comm_id : 社區ID<br /> id : 住戶ID <br /> app_id : 住戶App ID</td>
+<td>住戶開通</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
 
-        <?php if (file_exists(FCPATH.'documentation/index.html')) : ?>
-        <h2><a href="<?php echo base_url('documentation/index.html'); ?>" target="_blank">REST Server Documentation</a></h2>
-        <?php endif ?>
 
-        <p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+<div class="section" id="defining-the-api-news">
+<h3>News</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>/news/index/</td>
+<td class="left">comm_id : 社區ID</td>
+<td>取得所有News列表</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/news/index/</td>
+<td class="left">comm_id : 社區ID<br /> sn : News編號</td>
+<td>取得指定的一則News</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
 
-        <p>If you would like to edit this page you'll find it located at:</p>
-        <code>application/views/welcome_message.php</code>
 
-        <p>The corresponding controller for this page is found at:</p>
-        <code>application/controllers/Welcome.php</code>
 
-        <?php if (file_exists(FCPATH.'user_guide/index.html')) : ?>
-        <p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="<?php echo base_url('user_guide/index.html'); ?>" target="_blank">User Guide</a>.</p>
-        <?php endif ?>
+
+<div class="section" id="defining-the-api-rents">
+<h3>租屋資訊</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>/rent/index/</td>
+<td class="left">comm_id : 社區ID</td>
+<td>取得所有租屋資訊列表</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/rent/index/</td>
+<td class="left">comm_id : 社區ID<br /> sn : 租屋資訊編號</td>
+<td>取得指定的一則租屋資訊</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
     </div>
 
-    <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
+    <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php //echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>
 
 </body>
