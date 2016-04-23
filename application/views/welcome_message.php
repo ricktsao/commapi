@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div class="section" id="defining-the-api-news">
-<h3>News</h3>
+<h3>社區公告</h3>
 <table border="1" class="docutils">
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Method</th>
@@ -131,12 +131,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr class="row-even"><td>GET</td>
 <td>/news/index/</td>
 <td class="left">comm_id : 社區ID</td>
-<td>取得所有News列表</td>
+<td>取得所有社區公告列表</td>
 </tr>
 <tr class="row-odd"><td>GET</td>
 <td>/news/index/</td>
-<td class="left">comm_id : 社區ID<br /> sn : News編號</td>
-<td>取得指定的一則News</td>
+<td class="left">comm_id : 社區ID<br /> sn : 社區公告編號</td>
+<td>取得指定的一則社區公告</td>
 </tr>
 <tr class="row-even"><td>&nbsp;</td>
 <td>&nbsp;</td>
