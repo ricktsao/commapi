@@ -45,14 +45,14 @@ class Rent extends REST_Controller {
 
         } else {
 
-			$condition = 'comm_id="'.$comm_id.'" AND '.$this->it_model->getEffectedSQL('rent_house');
+			$condition = 'comm_id="'.$comm_id.'" AND '.$this->it_model->getEffectedSQL('house_to_rent');
 			
 			if ( isNotNull($sn) ) {
 				// If the sn parameter doesn't exist return all the rents
 				$condition .= ' AND sn = '.$sn;
 			}
 
-			$result = $this->it_model->listData('rent_house', $condition);
+			$result = $this->it_model->listData('house_to_rent', $condition);
 			
 
 			// Check if the rents data store contains rents (in case the database result returns NULL)

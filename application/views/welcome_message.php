@@ -85,7 +85,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-    <h1>API Url Structure</h1>
+    <!-- <h1>API Url Structure</h1> -->
+    <h1>API 預設網址  http://27.147.4.239/commapi/</h1>
 
     <div id="body">
 
