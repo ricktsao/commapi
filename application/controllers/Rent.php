@@ -40,63 +40,106 @@ class Rent extends REST_Controller {
 
             $this->set_response([
                 'status' => FALSE,
-                'message' => '�ާ@���~'
+                'message' => '請指定社區'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 
         } else {
 
 			$condition = 'comm_id="'.$comm_id.'" AND '.$this->it_model->getEffectedSQL('rent_house');
+			
+			if ( isNotNull($sn) ) {
+				// If the sn parameter doesn't exist return all the rents
+				$condition .= ' AND sn = '.$sn;
+			}
+
 			$result = $this->it_model->listData('rent_house', $condition);
 			
-			$rents = $result['data'];
 
+			// Check if the rents data store contains rents (in case the database result returns NULL)
+			if ($result['count'] > 0) {
 
-			// If the sn parameter doesn't exist return all the rents
-			if ( isNull($sn) ) {
-				// Check if the rents data store contains rents (in case the database result returns NULL)
-				if ($rents) {
-					// Set the response and exit
-					$this->response($rents, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+				//$rents = $result['data'];
+				$config_electric_array = config_item('electric_array');
+				$config_furniture_array = config_item('furniture_array');
+				$config_gender_array2 = config_item('gender_array2');
+				$config_parking_array = config_item('parking_array');
+				$config_rent_type_array = config_item('rent_type_array');
+				$config_house_type_array = config_item('house_type_array');
 
-				} else {
+				foreach ($result['data'] as $item) {
 
-					// Set the response and exit
-					$this->response([
-						'status' => FALSE,
-						'message' => '�䤣����󯲫θ�T'
-					], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-				}
-			}
+					$gender_term = $item['gender_term'];
+					$item['gender_term'] = $config_gender_array2[$gender_term];
 
-			// Find and return a single record for a particular user.
+					// 可否開伙
+					$flag_cooking = tryGetData('flag_cooking', $item, NULL);
+					if ( isNotNull($flag_cooking) ) {
 
-			$sn = (int) $sn;
+						if ($flag_cooking != 1) {
+							$item['flag_cooking'] = "不可以";
 
-			// Validate the sn.
-			if ($sn <= 0) {
-				// Invalid sn, set the response and exit.
-				$this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
-			}
-
-			// Get the user from the array, using the sn as key for retreival.
-			// Usually a model is to be used for this.
-			$rent = NULL;
-
-			if (!empty($rents)) {
-				foreach ($rents as $key => $value) {
-					if (isset($value['sn']) && $value['sn'] == $sn) {
-						$rent = $value;
+						} else {
+							$item['flag_cooking'] = "可以";
+						}
 					}
-				}
-			}
 
-			if (!empty($rent)) {
-				$this->set_response($rent, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-			
+					// 可否養寵物可否開伙
+					$flag_pet = tryGetData('flag_pet', $item, NULL);
+					if ( isNotNull($flag_pet) ) {
+
+						if ($flag_pet != 1) {
+							$item['flag_pet'] = "不可以";
+
+						} else {
+							$item['flag_pet'] = "可以";
+						}
+					}
+
+					// 車位
+					$flag_parking = tryGetData('flag_parking', $item, NULL);
+					$item['flag_parking'] = tryGetData($flag_parking, $config_parking_array, NULL);
+
+					// 型態
+					$rent_type = tryGetData('rent_type', $item, NULL);
+					$item['rent_type'] = tryGetData($rent_type, $config_rent_type_array, NULL);
+
+					// 物件類型
+					$house_type = tryGetData('house_type', $item, NULL);
+					$item['house_type'] = tryGetData($rent_type, $config_house_type_array, NULL);
+
+					// 家具
+					$given_furni_ary = explode(',' , $item['furniture']);
+					$furni_ary = array();
+					foreach($config_furniture_array as $furni) {
+
+						if ( in_array($furni['value'], $given_furni_ary) ) {
+							$furni_ary[] = $furni['title'];
+						}
+					}
+					$item['furniture'] = implode(',', $furni_ary);
+
+					// 家電
+					$given_ele_ary = explode(',' , $item['electric']);
+					$ele_ary = array();
+					foreach($config_electric_array as $ele) {
+
+						if ( in_array($ele['value'], $given_ele_ary) ) {
+							$ele_ary[] = $ele['title'];
+						}
+					}
+					$item['electric'] = implode(',', $ele_ary);
+
+					$rents[] = $item;
+				}
+				// Set the response and exit
+				$this->response($rents, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+
 			} else {
-				$this->set_response([
+
+				// Set the response and exit
+				$this->response([
 					'status' => FALSE,
-					'message' => '�z���w�����ΰT���L�k��� #'.$sn
+					'message' => '找不到任何租屋資訊，請確認'
 				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 			}
 		}
