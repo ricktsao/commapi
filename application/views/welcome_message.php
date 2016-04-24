@@ -148,6 +148,95 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 
+<div class="section" id="defining-the-api-news">
+<h3>管委公告</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>/bulletin/index/</td>
+<td class="left">comm_id : 社區ID</td>
+<td>取得所有管委公告列表</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/bulletin/index/</td>
+<td class="left">comm_id : 社區ID<br /> sn : 管委公告編號</td>
+<td>取得指定的一則管委公告</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="defining-the-api-news">
+<h3>日行一善</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>/daily_good/index/</td>
+<td class="left">comm_id : 社區ID</td>
+<td>取得所有日行一善列表</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/daily_good/index/</td>
+<td class="left">comm_id : 社區ID<br /> sn : 日行一善編號</td>
+<td>取得指定的一則日行一善</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" id="defining-the-api-news">
+<h3>課程專區</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>/course/index/</td>
+<td class="left">comm_id : 社區ID</td>
+<td>取得所有課程專區列表</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/course/index/</td>
+<td class="left">comm_id : 社區ID<br /> sn : 課程專區編號</td>
+<td>取得指定的一則課程專區</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
 <div class="section" id="defining-the-api-rents">

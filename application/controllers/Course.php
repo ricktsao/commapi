@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-class News extends REST_Controller {
+class Course extends REST_Controller {
 
     function __construct()
     {
@@ -55,7 +55,7 @@ class News extends REST_Controller {
 				$condition .= "and client_sn = '".$client_sn."'";
 			}
 			
-			$news_list = $this->c_model->GetList( "news" , $condition ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
+			$news_list = $this->c_model->GetList( "course" , $condition ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
 			if ($news_list['count'] > 0) 
 			{
 				$ajax_ary = array();
