@@ -129,6 +129,17 @@ class Rent extends REST_Controller {
 					}
 					$item['electric'] = implode(',', $ele_ary);
 
+
+					// 照片
+					$condition = 'comm_id="'.$comm_id.'" AND house_to_rent_sn='.$item['sn'];
+					$phoresult = $this->it_model->listData('house_to_rent_photo', $condition);
+					$photos = array();
+					foreach ($phoresult['data'] as $photo) {
+						$img = base_url('upload/website/house_to_rent/'.$comm_id.'/'.$item['sn'].'/'.$photo['filename']);
+						$photos[] = array('filename' => $img
+										, 'title' => $photo['title'] );
+					}
+					$item['photo'] = $photos;
 					$rents[] = $item;
 				}
 				// Set the response and exit
