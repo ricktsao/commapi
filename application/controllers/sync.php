@@ -73,6 +73,51 @@ class Sync extends CI_Controller {
 	}
 	
 	
+	public function updateUserMessage()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "edit_user_sn" => tryGetData("edit_user_sn",$edit_data,NULL)	
+			, "to_user_sn" => tryGetData("to_user_sn",$edit_data)	
+			, "to_user_app_id" => tryGetData("to_user_app_id",$edit_data)
+			, "to_user_name" => tryGetData("to_user_name",$edit_data)	
+			, "title" => tryGetData("title",$edit_data,NULL)	
+			, "msg_content" => tryGetData("msg_content",$edit_data)			
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "user_message" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
+			$arr_data["created"] =   date( "Y-m-d H:i:s" );
+			$content_sn = $this->it_model->addData( "user_message" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}
+	
+		
+	}
+	
+	
+	
+	
 	function isNotNull($value) 
 	{
 		if(!isset($value))
