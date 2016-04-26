@@ -51,25 +51,25 @@ class Message extends REST_Controller {
         }
 		else 
 		{
-			$condition = "comm_id = '".$comm_id."' and app_id = '".$app_id."'";
+			$condition = "comm_id = '".$comm_id."' and to_user_app_id = '".$app_id."'";
 			if( isNotNULL($client_sn) )
 			{
 				$condition .= "and client_sn = '".$client_sn."'";
 			}
 			
-			$msg_list = $this->it_model->listData( "user_message" , $condition ,TRUE, NULL , NULL , array("created"=>"desc","sn"=>"desc") );
+			$msg_list = $this->it_model->listData( "user_message" , $condition , NULL , NULL , array("created"=>"desc","sn"=>"desc") );
+
 			if ($msg_list['count'] > 0) 
 			{
 				$ajax_ary = array();
 				foreach ($msg_list["data"] as $msg_info) 
-				{
-					
+				{					
 					$tmp_data = array
 					(				
 						"sn"=> $msg_info["client_sn"],
 						"title"=> $msg_info["title"],
-						"content" => $msg_info["content"],
-						"send_date" =>  showDateFormat($msg_info["start_date"])					
+						"msg_content" => $msg_info["msg_content"],
+						"send_date" =>  showDateFormat($msg_info["created"])					
 					);
 					
 					array_push($ajax_ary,$tmp_data);
