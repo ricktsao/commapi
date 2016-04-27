@@ -116,6 +116,91 @@ class Sync extends CI_Controller {
 	}
 	
 	
+	public function updateRepair()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		if(isNull(tryGetData("sn",$edit_data,NULL)) || isNull(tryGetData("comm_id",$edit_data,NULL)))
+		{
+			echo '0';
+			return;
+		}
+		
+		$arr_data = array
+		(   
+			  "user_sn" => tryGetData("user_sn",$edit_data,NULL)	
+			, "user_name" => tryGetData("user_name",$edit_data)	
+			, "app_id" => tryGetData("app_id",$edit_data)
+			, "type" => tryGetData("type",$edit_data)			
+			, "status" => tryGetData("status",$edit_data,0)
+			, "content" => tryGetData("content",$edit_data,NULL)		
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "repair" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
+			$arr_data["created"] =   date( "Y-m-d H:i:s" );
+			$content_sn = $this->it_model->addData( "repair" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
+	
+	
+	public function updateRepairReply()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "repair_sn" => tryGetData("repair_sn",$edit_data,NULL)	
+			, "repair_status" => tryGetData("repair_status",$edit_data)	
+			, "reply" => tryGetData("repair_reply",$edit_data)				
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "repair_reply" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
+			$arr_data["created"] =   date( "Y-m-d H:i:s" );
+			$content_sn = $this->it_model->addData( "repair_reply" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
 	
 	
 	function isNotNull($value) 
