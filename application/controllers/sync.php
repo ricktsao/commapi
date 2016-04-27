@@ -111,10 +111,49 @@ class Sync extends CI_Controller {
 				echo '0';	
 			}		
 		}
-	
-		
 	}
 	
+		
+	public function updateRepair()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "user_sn" => tryGetData("user_sn",$edit_data,NULL)	
+			, "user_name" => tryGetData("user_name",$edit_data)	
+			, "app_id" => tryGetData("app_id",$edit_data)
+			, "type" => tryGetData("type",$edit_data)	
+			, "content" => tryGetData("content",$edit_data,NULL)	
+			, "status" => tryGetData("status",$edit_data)			
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "repair" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
+			$arr_data["created"] =   date( "Y-m-d H:i:s" );
+			$content_sn = $this->it_model->addData( "repair" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
 	
 	
 	
