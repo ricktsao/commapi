@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     table{
         border: 0px solid #D0D0D0;
-        width: 720px;
+        width: 900px;
     }
 
     td, th {
@@ -90,6 +90,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div id="body">
 
+<div class="section" id="defining-the-api-news">
+<h3>個人通知訊息</h3>
+	<table border="1" >
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+			<th class="head">URL</th>
+			<th class="head">Params</th>
+			<th class="head">Action</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr class="row-even"><td>POST</td>
+			<td>/message/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID</td>
+			<td>
+				取得用戶訊息列表<br> 
+				comm_id可使用 5tgb4rfv<br>
+				app_id可使用 1255567822,1234507844,1234567233
+			</td>
+		</tr>	
+		<tr class="row-even"><td>POST</td>
+			<td>/message/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID<br>sn : 訊息編號</td>
+			<td>取得指定的一則用戶訊息</td>
+		</tr>	
+		
+		</tbody>
+	</table>
+</div>
+	
+	
 <div class="section" id="defining-the-api-user">
 <h3>住戶資訊  (參照 community_cloud.sys_user 資料表)</h3>
 <table border="1" class="docutils">

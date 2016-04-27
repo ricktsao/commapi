@@ -62,6 +62,18 @@ class User extends REST_Controller {
 			if ($result['count'] > 0) {
 
 				$user = $result['data'][0];
+
+
+
+				$arr_data = array('last_login_ip' => $_SERVER['REMOTE_ADDR']
+								, 'last_login_time' => date('Y-m-d H:i:00')
+								, 'last_login_agent' => '[APP] '.$_SERVER['HTTP_USER_AGENT']
+								);
+
+				$arr_return = $this->it_model->updateDB( "sys_user" 
+														, $arr_data
+														, 'role = "I" AND comm_id="'.$comm_id.'" AND id="'.$id.'" ' );
+
 				// Set the response and exit
 				$this->response($user, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
 
@@ -105,7 +117,6 @@ class User extends REST_Controller {
 			if ($result['count'] > 0) {
 
 				$user = $result['data'][0];
-
 
 				$arr_data = array('app_id' => $app_id
 								, 'start_date' => date('Y-m-d H:i:00')
