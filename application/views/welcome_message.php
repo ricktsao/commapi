@@ -86,10 +86,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div id="container">
     <!-- <h1>API Url Structure</h1> -->
-    <h1>API 預設網址  http://27.147.4.239/commapi/</h1>
-
+    <h1>API 預設網址  http://27.147.4.239/commapi/
+	<br>	
+	</h1>
+	
     <div id="body">
-
+<h5 style="color:red">comm_id 可使用 5tgb4rfv<br>
+			app_id 可使用 1255567822,1234507844,1234567233		
+	</h5>
 <div class="section" id="defining-the-api-news">
 <h3>個人通知訊息</h3>
 	<table border="1" >
@@ -105,9 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<td>/message/index/</td>
 			<td class="left">comm_id : 社區ID<br>app_id : App ID</td>
 			<td>
-				取得用戶訊息列表<br> 
-				comm_id可使用 5tgb4rfv<br>
-				app_id可使用 1255567822,1234507844,1234567233
+				取得用戶訊息列表
 			</td>
 		</tr>	
 		<tr class="row-even"><td>POST</td>
@@ -267,6 +269,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </tr>
 </tbody>
 </table>
+</div>
+
+<div class="section" id="defining-the-api-news">
+<h3>社區報修  </h3>
+	<table border="1" >
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+			<th class="head">URL</th>
+			<th class="head">Params</th>
+			<th class="head">Action</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr class="row-even"><td>POST</td>
+			<td>/repair/event</td>
+			<td class="left">
+				comm_id : 社區ID<br>
+				app_id : App ID<br>
+				user_name : 住戶姓名<br>
+				repair_type : 維修範圍 (1:公共區域,2:住家內部)<br>
+				repair_content : 報修內容
+			</td>
+			<td>
+				報修				
+			</td>
+		</tr>	
+		<tr class="row-even"><td>POST</td>
+			<td>/repair/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID</td>
+			<td>
+				查詢紀錄
+			</td>
+		</tr>	
+		<tr class="row-even"><td>POST</td>
+			<td>/detail/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID<br>sn : 報修編號</td>
+			<td>
+			取得指定的一則報修回覆紀錄<br>
+			reply_list : 回覆紀錄列表
+			</td>
+		</tr>	
+		
+		</tbody>
+	</table>
 </div>
 
 
