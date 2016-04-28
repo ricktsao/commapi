@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-class Rent extends REST_Controller {
+class Rent_House extends REST_Controller {
 
     function __construct()
     {
@@ -63,7 +63,7 @@ class Rent extends REST_Controller {
 				$config_furniture_array = config_item('furniture_array');
 				$config_gender_array2 = config_item('gender_array2');
 				$config_parking_array = config_item('parking_array');
-				$config_rent_type_array = config_item('rent_type_array');
+				$config_rent_sale_type_array = config_item('rent_sale_type_array');
 				$config_house_type_array = config_item('house_type_array');
 
 				foreach ($result['data'] as $item) {
@@ -101,7 +101,7 @@ class Rent extends REST_Controller {
 
 					// 型態
 					$rent_type = tryGetData('rent_type', $item, NULL);
-					$item['rent_type'] = tryGetData($rent_type, $config_rent_type_array, NULL);
+					$item['rent_type'] = tryGetData($rent_type, $config_rent_sale_type_array, NULL);
 
 					// 物件類型
 					$house_type = tryGetData('house_type', $item, NULL);
@@ -129,6 +129,17 @@ class Rent extends REST_Controller {
 					}
 					$item['electric'] = implode(',', $ele_ary);
 
+
+					// 照片
+					$condition = 'comm_id="'.$comm_id.'" AND house_to_rent_sn='.$item['sn'];
+					$phoresult = $this->it_model->listData('house_to_rent_photo', $condition);
+					$photos = array();
+					foreach ($phoresult['data'] as $photo) {
+						$img = base_url('upload/website/house_to_rent/'.$comm_id.'/'.$item['sn'].'/'.$photo['filename']);
+						$photos[] = array('photo' => $img
+										, 'title' => $photo['title'] );
+					}
+					$item['photos'] = $photos;
 					$rents[] = $item;
 				}
 				// Set the response and exit
