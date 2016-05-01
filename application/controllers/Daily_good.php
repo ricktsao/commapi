@@ -61,12 +61,18 @@ class Daily_good extends REST_Controller {
 				$ajax_ary = array();
 				foreach ($news_list["data"] as $news_info) 
 				{
-					
+					$img_url = "";
+					if(isNotNull(tryGetData("img_filename",$news_info)))
+					{
+						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/daily_good/".$news_info["img_filename"];
+					}	
 					$tmp_data = array
 					(				
 						"sn"=> $news_info["client_sn"],
-						"title"=> $news_info["title"],
+						"sponsor"=> $news_info["title"],
+						"source"=> $news_info["brief"],
 						"content" => $news_info["content"],
+						"img_url" => $img_url,
 						"news_date" =>  showDateFormat($news_info["start_date"])					
 					);
 					
@@ -77,7 +83,6 @@ class Daily_good extends REST_Controller {
 			} 
 			else 
 			{
-
 				// Set the response and exit
 				$this->response([
 					'status' => FALSE,

@@ -61,12 +61,29 @@ class Course extends REST_Controller {
 				$ajax_ary = array();
 				foreach ($news_list["data"] as $news_info) 
 				{
+					$img_url = "";
+					if(isNotNull(tryGetData("img_filename",$news_info)))
+					{
+						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/course/".$news_info["img_filename"];
+					}	
+					
+					$money_string = '';
+					if($news_info["brief"]==1)
+					{
+						$money_string = '需收費';
+					}
+					else 
+					{
+						$money_string = '不需收費';
+					}
 					
 					$tmp_data = array
 					(				
 						"sn"=> $news_info["client_sn"],
 						"title"=> $news_info["title"],
 						"content" => $news_info["content"],
+						"money" => $money_string,
+						"img_url" => $img_url,
 						"news_date" =>  showDateFormat($news_info["start_date"])					
 					);
 					

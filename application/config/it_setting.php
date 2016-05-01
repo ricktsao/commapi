@@ -179,3 +179,6 @@ $config['repair_status'] = array(
 	"3" => "估價",
 	"4" => "完工"
 );
+
+// api server url
+$config['api_server_url'] = 'http://27.147.4.239/commapi/';

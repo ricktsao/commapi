@@ -50,7 +50,7 @@ class News extends REST_Controller {
 		else 
 		{
 			$condition = "comm_id = '".$comm_id."' ";
-			if( isNotNULL($client_sn) )
+			if( isNotNull($client_sn) )
 			{
 				$condition .= "and client_sn = '".$client_sn."'";
 			}
@@ -61,12 +61,18 @@ class News extends REST_Controller {
 				$ajax_ary = array();
 				foreach ($news_list["data"] as $news_info) 
 				{
+					$img_url = "";
+					if(isNotNull(tryGetData("img_filename",$news_info)))
+					{
+						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/news/".$news_info["img_filename"];
+					}					
 					
 					$tmp_data = array
 					(				
 						"sn"=> $news_info["client_sn"],
 						"title"=> $news_info["title"],
 						"content" => $news_info["content"],
+						"img_url" => $img_url,
 						"news_date" =>  showDateFormat($news_info["start_date"])					
 					);
 					

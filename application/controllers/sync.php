@@ -45,6 +45,7 @@ class Sync extends CI_Controller {
 			, "url" => tryGetData("url",$edit_data)
 			, "target" => tryGetData("target",$edit_data,0)
 			, "content" => tryGetData("content",$edit_data)
+			, "img_filename" => tryGetData("img_filename",$edit_data)
 			, "update_date" =>  date( "Y-m-d H:i:s" )
 		);
 		
@@ -235,7 +236,7 @@ class Sync extends CI_Controller {
 		}	
 		
 
-		//dprint($_FILES);
+		dprint($_FILES);
 	}
 	
 	
@@ -264,18 +265,23 @@ class Sync extends CI_Controller {
 				}
 				
 				//需要上傳的檔案
-				$upload_file_ary = array_diff($client_file_ary,$server_file_ary);
-				
+				//----------------------------------------------------------------
+				$upload_file_ary = array_diff($client_file_ary,$server_file_ary);				
 				$upload_file_list = implode(",",$upload_file_ary);
-				
+				//----------------------------------------------------------------
 				
 				//server 上需要刪除的檔案
+				//----------------------------------------------------------------
 				$del_file_ary = array_diff($server_file_ary,$client_file_ary);
 				foreach( $del_file_ary as $key => $del_file )
 				{					
 					@unlink(set_realpath("upload/".$comm_id."/".$folder).$del_file);	
 				}
-				
+				//----------------------------------------------------------------
+			}
+			else
+			{
+				$upload_file_list = $file_string;
 			}
 			
 		}
