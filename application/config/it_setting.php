@@ -180,5 +180,11 @@ $config['repair_status'] = array(
 	"4" => "完工"
 );
 
+//意見箱收件者  a:管委收,s:總幹事收
+$config['suggestion_to_role'] = array(
+	"a" => "管委收",
+	"s" => "總幹事收"
+);
+
 // api server url
 $config['api_server_url'] = 'http://27.147.4.239/commapi/';

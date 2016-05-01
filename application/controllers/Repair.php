@@ -182,6 +182,7 @@ class Repair extends REST_Controller {
 		else 
 		{
 			$add_data = array(	
+			"comm_id"=> $comm_id,
 			"app_id" => $app_id,
 			"type" => $repair_type,
 			"content" => $repair_content,

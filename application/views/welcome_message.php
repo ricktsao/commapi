@@ -286,8 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<td>/repair/event</td>
 			<td class="left">
 				comm_id : 社區ID<br>
-				app_id : App ID<br>
-				user_name : 住戶姓名<br>
+				app_id : App ID<br>				
 				repair_type : 維修範圍 (1:公共區域,2:住家內部)<br>
 				repair_content : 報修內容
 			</td>
@@ -314,6 +313,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</tbody>
 	</table>
 </div>
+
+
+<div class="section" id="defining-the-api-news">
+<h3>意見箱  </h3>
+	<table border="1" >
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+			<th class="head">URL</th>
+			<th class="head">Params</th>
+			<th class="head">Action</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr class="row-even"><td>POST</td>
+			<td>/suggestion/event</td>
+			<td class="left">
+				comm_id : 社區ID<br>
+				app_id : App ID<br>
+				title : 意見主旨<br>
+				content : 意見內容<br>
+				to_role : 收件對象 (a:管委收,s:總幹事收)<br>
+			</td>
+			<td>
+				意見箱				
+			</td>
+		</tr>	
+		<tr class="row-even"><td>POST</td>
+			<td>/suggestion/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID</td>
+			<td>
+				查詢紀錄
+			</td>
+		</tr>	
+		<tr class="row-even"><td>POST</td>
+			<td>/suggestion/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID<br>sn : 意見箱編號</td>
+			<td>
+			取得指定的一則意見箱紀錄
+			</td>
+		</tr>	
+		
+		</tbody>
+	</table>
+</div>
+
 
 
 <div class="section" id="defining-the-api-rents">
