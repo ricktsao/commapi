@@ -198,33 +198,92 @@ class Sync extends CI_Controller {
 	}
 	
 	
-	function isNotNull($value) 
-	{
-		if(!isset($value))
+	public function fileUpload()
+	{		
+		foreach( $_FILES as $key => $file )
 		{
-			return FALSE;
-		}
-		if (is_array($value)) 
-		{
-			if (sizeof($value) > 0) 
+			if(isNotNull($file['name']))
 			{
-				return true;
-			} 
-			else 
-			{
-				return false;
-			}
-		} 
-		else 
-		{
-			if ( (is_string($value) || is_int($value) || is_float($value)) && ($value != '') && ($value != 'NULL') && (strlen(trim($value)) > 0)) 
-			{
-				return true;
-			} 
-			else 
-			{
-				return false;
-			}
-		}
+				$key_ary = explode("<#-#>",$key);
+				if(count($key_ary)!=2)
+				{
+					continue;
+				}
+				$comm_id = $key_ary[0];
+				$folder = $key_ary[1];			
+				
+				
+				if (!is_dir(set_realpath("upload/".$comm_id)))
+				{
+					mkdir(set_realpath("upload/".$comm_id),0777);
+				}
+				//dprint(set_realpath("upload/".$comm_id));
+				
+				
+				if (!is_dir(set_realpath("upload/".$comm_id."/".$folder)))
+				{
+					mkdir(set_realpath("upload/".$comm_id."/".$folder),0777);
+				}
+				
+				//圖片處理 img_filename	
+				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];				
+				move_uploaded_file( $file['tmp_name'], $uploadedUrl);
+				
+			
+				
+			}		
+		}	
+		
+
+		//dprint($_FILES);
 	}
+	
+	
+	public function askFile()
+	{
+		$file_string = $this->input->post("file_string",TRUE);	
+		$comm_id = $this->input->post("comm_id",TRUE);		
+		$folder = $this->input->post("folder",TRUE);	
+		
+		$upload_file_list = "";
+		
+		if(isNotNull($comm_id) && isNotNull($folder) )
+		{
+			if (is_dir(set_realpath("upload/".$comm_id."/".$folder)))
+			{
+				$client_file_ary = explode(",",$file_string);
+				
+				
+				$server_folder = set_realpath("upload/".$comm_id."/".$folder);
+				$files = glob($server_folder . '*');
+				$server_file_ary = array();
+				foreach( $files as $key => $file_name_with_full_path )
+				{
+					//echo '<br>'.basename($file_name_with_full_path);
+					array_push($server_file_ary,basename($file_name_with_full_path));
+				}
+				
+				//需要上傳的檔案
+				$upload_file_ary = array_diff($client_file_ary,$server_file_ary);
+				
+				$upload_file_list = implode(",",$upload_file_ary);
+				
+				
+				//server 上需要刪除的檔案
+				$del_file_ary = array_diff($server_file_ary,$client_file_ary);
+				foreach( $del_file_ary as $key => $del_file )
+				{					
+					@unlink(set_realpath("upload/".$comm_id."/".$folder).$del_file);	
+				}
+				
+			}
+			
+		}
+		
+		echo $upload_file_list;
+	}
+	
+	
+	
+	
 }
