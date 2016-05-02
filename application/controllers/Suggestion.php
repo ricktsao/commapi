@@ -116,8 +116,7 @@ class Suggestion extends REST_Controller {
         }
 		else 
 		{
-			$add_data = array(	
-			"app_id" => $app_id,
+			$add_data = array(				
 			"comm_id"=> $comm_id,
 			"app_id"=> $app_id,			
 			"title"  => $title,

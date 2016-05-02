@@ -199,6 +199,93 @@ class Sync extends CI_Controller {
 	}
 	
 	
+	
+	
+	public function updateSuggestion()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "title" => tryGetData("title",$edit_data,NULL)
+			, "content" => tryGetData("content",$edit_data,NULL)
+			, "app_id" => tryGetData("app_id",$edit_data,NULL)
+			, "reply" => tryGetData("reply",$edit_data,NULL)			
+			, "user_sn" => tryGetData("edit_user_sn",$edit_data,NULL)	
+			, "to_role" => tryGetData("to_role",$edit_data)			
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "suggestion" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
+			$arr_data["created"] =   date( "Y-m-d H:i:s" );
+			$content_sn = $this->it_model->addData( "suggestion" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
+	
+	
+	
+	public function updateGas()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "building_id" => tryGetData("building_id",$edit_data,NULL)
+			, "building_text" => tryGetData("building_text",$edit_data,NULL)	
+			, "year" => tryGetData("year",$edit_data,NULL)				
+			, "month" => tryGetData("month",$edit_data,NULL)	
+			, "degress" => tryGetData("degress",$edit_data)			
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "gas" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
+			$arr_data["created"] =   date( "Y-m-d H:i:s" );
+			$content_sn = $this->it_model->addData( "gas" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
+	
+	
+	
 	public function fileUpload()
 	{		
 		foreach( $_FILES as $key => $file )
