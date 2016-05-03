@@ -285,6 +285,57 @@ class Sync extends CI_Controller {
 	}
 	
 	
+	public function updateMailbox()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			
+			  "type" => tryGetData("type",$edit_data,NULL)
+			, "no" => tryGetData("no",$edit_data,NULL)
+			, "desc" => tryGetData("desc",$edit_data,NULL)
+			, "booked" => tryGetData("booked",$edit_data)
+			, "booker" => tryGetData("booker",$edit_data)			
+			, "booker_id" => tryGetData("booker_id",$edit_data)	
+			, "user_sn" => tryGetData("user_sn",$edit_data)
+			, "user_app_id" => tryGetData("user_app_id",$edit_data)
+			, "user_building_id" => tryGetData("user_building_id",$edit_data)
+			, "user_id" => tryGetData("user_id",$edit_data)
+			, "user_name" => tryGetData("user_name",$edit_data)
+			, "received" => tryGetData("received",$edit_data)
+			, "receive_user_name" => tryGetData("receive_user_name",$edit_data)
+			, "receive_user_sn" => tryGetData("receive_user_sn",$edit_data)
+			, "is_receive" => tryGetData("is_receive",$edit_data,0)
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "mailbox" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);			
+			$content_sn = $this->it_model->addData( "mailbox" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
+	
+	
 	
 	public function fileUpload()
 	{		
