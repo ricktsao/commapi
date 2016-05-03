@@ -359,6 +359,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 
+<div class="section" id="defining-the-api-news">
+<h3>瓦斯表</h3>
+	<table border="1" >
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+			<th class="head">URL</th>
+			<th class="head">Params</th>
+			<th class="head">Action</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr class="row-even"><td>POST</td>
+			<td>/gas/readgas</td>
+			<td class="left">
+				comm_id : 社區ID<br>
+				app_id : App ID<br>
+				year : 年<br>
+				month : 月<br>
+				degress : 度數<br>
+			</td>
+			<td>
+				抄表作業(return 1: 成功,0:失敗)				
+			</td>
+		</tr>	
+		<tr class="row-even"><td>POST</td>
+			<td>/gas/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID</td>
+			<td>
+				查詢紀錄
+			</td>
+		</tr>	
+		<tr class="row-even"><td>GET</td>
+			<td>/gas/vender/</td>
+			<td class="left">comm_id : 社區ID</td>
+			<td>
+			瓦斯公司基本資料
+			</td>
+		</tr>	
+		
+		</tbody>
+	</table>
+</div>
 
 <div class="section" id="defining-the-api-rents">
 <h3>租屋資訊</h3>
