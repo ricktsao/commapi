@@ -94,6 +94,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <h5 style="color:red">comm_id 可使用 5tgb4rfv<br>
 			app_id 可使用 1255567822,1234507844,1234567233		
 	</h5>
+	
+<div class="section" id="defining-the-api-news">
+<h3>登入  </h3>
+	<table border="1" >
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+			<th class="head">URL</th>
+			<th class="head">Params</th>
+			<th class="head">Action</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr class="row-even"><td>POST</td>
+			<td>/user/login</td>
+			<td class="left">
+				comm_id : 社區ID<br>
+				app_id : App ID
+			</td>
+			<td>
+				登入				
+			</td>
+		</tr>	
+		</tbody>
+	</table>
+</div>
+	
 <div class="section" id="defining-the-api-news">
 <h3>個人通知訊息</h3>
 	<table border="1" >
@@ -270,6 +296,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </tbody>
 </table>
 </div>
+
+<div class="section" id="defining-the-api-news">
+<h3>社區廣告訊息</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+	<td>/ad/index/</td>
+	<td class="left">comm_id : 社區ID</td>
+	<td>取得所有廣告列表</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/ad/index/</td>
+<td class="left">comm_id : 社區ID<br /> sn : 廣告編號</td>
+<td>取得指定的一則廣告</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
 
 <div class="section" id="defining-the-api-news">
 <h3>社區報修  </h3>
