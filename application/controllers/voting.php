@@ -1,17 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Voting extends CI_Controller {
-
-
-	
+class Voting extends CI_Controller {	
 	
 	function __construct() 
 	{
 		parent::__construct();	  
 		$this->load->database();
-	}
-	
-	
+	}	
 	
 	public function index()
 	{		
@@ -135,7 +130,7 @@ class Voting extends CI_Controller {
 		}
 
 		$edit_data['is_sync'] = 1;
-		$content_sn = $this->it_model->addData( "voting_record" , $edit_data )
+		$content_sn = $this->it_model->addData( "voting_record" , $edit_data );
 		if($content_sn > 0){
 			echo "1";
 		}else{
