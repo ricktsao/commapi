@@ -154,8 +154,24 @@ class Sync extends CI_Controller {
 			{
 				echo '0';	
 			}		
-		}
-	}	
+
+		}	
+		
+	}
+	
+	/**
+	 * 查詢由app新增的報修資料
+	**/
+	public function getAppRepair()
+	{
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$condition = "comm_id = '".$comm_id."' and client_sync = 0 ";			
+		$repair_list = $this->it_model->listData( "repair" , $condition );
+		
+		$arr = urlencode($repair_list["data"]);
+		echo urldecode(json_encode($arr));
+	}
+
 	
 	public function updateRepairReply()
 	{	
