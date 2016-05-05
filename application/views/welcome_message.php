@@ -489,7 +489,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </table>
 </div>
 
-
 <div class="section" id="defining-the-api-rents">
 	<h3>活動相簿</h3>
 	<table border="1" class="docutils">
