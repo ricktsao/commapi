@@ -154,24 +154,8 @@ class Sync extends CI_Controller {
 			{
 				echo '0';	
 			}		
-
-		}	
-		
-	}
-	
-	/**
-	 * 查詢由app新增的報修資料
-	**/
-	public function getAppRepair()
-	{
-		$comm_id = tryGetData('comm_id', $_POST, NULL);
-		$condition = "comm_id = '".$comm_id."' and client_sync = 0 ";			
-		$repair_list = $this->it_model->listData( "repair" , $condition );
-		
-		$arr = urlencode($repair_list["data"]);
-		echo urldecode(json_encode($arr));
-	}
-
+		}
+	}	
 	
 	public function updateRepairReply()
 	{	
@@ -296,6 +280,47 @@ class Sync extends CI_Controller {
 		
 	}
 	
+	/**
+	 * 查詢由app新增的意見箱
+	**/
+	public function getAppSuggestion()
+	{
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$condition = "comm_id = '".$comm_id."' and client_sync = 0 ";			
+		$suggestion_list = $this->it_model->listData( "suggestion" , $condition );
+				
+		echo json_encode($suggestion_list["data"]);
+	}	
+	
+	public function updateServerSuggestion()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "client_sn" => tryGetData("sn",$edit_data,NULL)
+			, "reply" => tryGetData("reply",$edit_data,NULL)
+			, "user_sn" => tryGetData("user_sn",$edit_data,NULL)
+			, "to_role" => tryGetData("to_role",$edit_data)				
+			, "updated" =>  date( "Y-m-d H:i:s" )
+			, "client_sync" =>1
+		);		
+		
+		if($this->it_model->updateData( "suggestion" , $arr_data, "sn ='".$edit_data["server_sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			echo '0';
+		}
+	}
+	
+	
+	
 	
 	
 	public function updateGas()
@@ -350,9 +375,8 @@ class Sync extends CI_Controller {
 		$condition = "comm_id = '".$comm_id."' and client_sync = 0 ";			
 		$gas_list = $this->it_model->listData( "gas" , $condition );
 				
-		echo json_encode($repair_list["data"]);
-	}
-	
+		echo json_encode($gas_list["data"]);
+	}	
 	
 	public function updateServerGas()
 	{	
