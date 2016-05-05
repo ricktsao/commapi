@@ -552,6 +552,16 @@ class Sync extends CI_Controller {
 	}
 	
 	
-	
+	/**
+	 * 查詢由app user登入狀況
+	**/
+	public function getAppUser()
+	{
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$condition = "comm_id = '".$comm_id."' and role ='I'";			
+		$user_list = $this->it_model->listData( "sys_user" , $condition );
+				
+		echo json_encode($user_list["data"]);
+	}
 	
 }
