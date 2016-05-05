@@ -490,6 +490,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 
+<div class="section" id="defining-the-api-rents">
+	<h3>活動相簿</h3>
+	<table border="1" class="docutils">
+		<thead valign="bottom">
+			<tr class="row-odd">
+				<th class="head">Method</th>
+				<th class="head">URL</th>
+				<th class="head">Params</th>
+				<th class="head">Action</th>
+			</tr>
+		</thead>
+		<tbody valign="top">
+			<tr class="row-even">
+				<td>GET</td>
+				<td>/Album/index/</td>
+				<td class="left">comm_id : 社區ID</td>
+				<td>取得所有活動相簿列表</td>
+			</tr>
+			<tr class="row-odd">
+				<td>GET</td>
+				<td>/Album/photo/</td>
+				<td class="left">comm_id : 社區ID
+					<br /> sn : 相簿編號</td>
+				<td>取得指定相簿的所有相片</td>
+			</tr>
+			<tr class="row-odd">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
     </div>
 
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php //echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
