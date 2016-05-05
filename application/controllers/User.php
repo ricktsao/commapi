@@ -80,10 +80,9 @@ class User extends REST_Controller {
     public function login_post()
     {		
 		$comm_id = tryGetData('comm_id', $_POST, NULL);
-		$id = tryGetData('id', $_POST, NULL);
 		$app_id = tryGetData('app_id', $_POST, NULL);
 
-        if ( isNull($comm_id) && isNull($id) && isNull($app_id) ) {
+        if ( isNull($comm_id) && isNull($app_id) ) {
 
             $this->set_response([
                 'status' => FALSE,
@@ -95,8 +94,8 @@ class User extends REST_Controller {
 			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, id, app_id, app_use_cnt '
 					.'  FROM sys_user '
 					.' WHERE role = "I" '
+					.'   AND launch = 1 '
 					.'   AND comm_id="'.$comm_id.'" '
-					.'   AND id="'.$id.'" '
 					.'   AND app_id="'.$app_id.'" '	//.$this->it_model->getEffectedSQL('rent_house');
 					;
 			$result = $this->it_model->runSql($query);
@@ -127,7 +126,7 @@ class User extends REST_Controller {
 
 				$arr_return = $this->it_model->updateDB( "sys_user" 
 														, $arr_data
-														, 'role = "I" AND comm_id="'.$comm_id.'" AND id="'.$id.'" AND app_id="'.$app_id.'" ' );
+														, 'role = "I" AND comm_id="'.$comm_id.'" AND app_id="'.$app_id.'" ' );
 				//dprint($this->db->last_query());
 				if($arr_return['success'])
 				{

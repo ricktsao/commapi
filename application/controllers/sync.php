@@ -154,11 +154,24 @@ class Sync extends CI_Controller {
 			{
 				echo '0';	
 			}		
+
 		}	
 		
 	}
 	
-	
+	/**
+	 * 查詢由app新增的報修資料
+	**/
+	public function getAppRepair()
+	{
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$condition = "comm_id = '".$comm_id."' and client_sync = 0 ";			
+		$repair_list = $this->it_model->listData( "repair" , $condition );
+		
+		$arr = urlencode($repair_list["data"]);
+		echo urldecode(json_encode($arr));
+	}
+
 	
 	public function updateRepairReply()
 	{	
@@ -199,7 +212,48 @@ class Sync extends CI_Controller {
 	}
 	
 	
+	/**
+	 * 查詢由app新增的報修資料
+	**/
+	public function getAppRepair()
+	{
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$condition = "comm_id = '".$comm_id."' and client_sync = 0 ";			
+		$repair_list = $this->it_model->listData( "repair" , $condition );
+				
+		echo json_encode($repair_list["data"]);
+	}
 	
+	
+	public function updateServerRepair()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "client_sn" => tryGetData("sn",$edit_data,NULL)	
+			, "user_sn" => tryGetData("user_sn",$edit_data,NULL)	
+			, "user_name" => tryGetData("user_name",$edit_data)	
+			, "app_id" => tryGetData("app_id",$edit_data)
+			, "type" => tryGetData("type",$edit_data)			
+			, "status" => tryGetData("status",$edit_data,0)
+			, "content" => tryGetData("content",$edit_data,NULL)		
+			, "updated" =>  date( "Y-m-d H:i:s" )
+			, "client_sync" =>1
+		);		
+		
+		if($this->it_model->updateData( "repair" , $arr_data, "sn ='".$edit_data["server_sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			echo '0';
+		}
+	}
 	
 	public function updateSuggestion()
 	{	
@@ -272,6 +326,103 @@ class Sync extends CI_Controller {
 			$arr_data["client_sn"] = tryGetData("sn",$edit_data);
 			$arr_data["created"] =   date( "Y-m-d H:i:s" );
 			$content_sn = $this->it_model->addData( "gas" , $arr_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
+	
+	
+	
+	
+	/**
+	 * 查詢由app新增的瓦斯資料
+	**/
+	public function getAppGas()
+	{
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$condition = "comm_id = '".$comm_id."' and client_sync = 0 ";			
+		$gas_list = $this->it_model->listData( "gas" , $condition );
+				
+		echo json_encode($repair_list["data"]);
+	}
+	
+	
+	public function updateServerGas()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			  "client_sn" => tryGetData("sn",$edit_data,NULL)
+			, "building_id" => tryGetData("building_id",$edit_data)
+			, "building_text" => tryGetData("building_text",$edit_data)
+			, "year" => tryGetData("year",$edit_data,NULL)
+			, "month" => tryGetData("month",$edit_data)
+			, "degress" => tryGetData("degress",$edit_data)				
+			, "updated" =>  date( "Y-m-d H:i:s" )
+			, "client_sync" =>1
+		);		
+		
+		if($this->it_model->updateData( "gas" , $arr_data, "sn ='".$edit_data["server_sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			echo '0';
+		}
+	}
+	
+	
+	public function updateMailbox()
+	{	
+		foreach( $_POST as $key => $value )
+		{
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		$arr_data = array
+		(   
+			
+			  "type" => tryGetData("type",$edit_data,NULL)
+			, "type_str" => tryGetData("type_str",$edit_data,NULL)
+			, "no" => tryGetData("no",$edit_data,NULL)
+			, "desc" => tryGetData("desc",$edit_data,NULL)
+			, "booked" => tryGetData("booked",$edit_data)
+			, "booker" => tryGetData("booker",$edit_data)			
+			, "booker_id" => tryGetData("booker_id",$edit_data)	
+			, "user_sn" => tryGetData("user_sn",$edit_data)
+			, "user_app_id" => tryGetData("user_app_id",$edit_data)
+			, "user_building_id" => tryGetData("user_building_id",$edit_data)
+			, "user_id" => tryGetData("user_id",$edit_data)
+			, "user_name" => tryGetData("user_name",$edit_data)
+			, "received" => tryGetData("received",$edit_data)
+			, "receive_user_name" => tryGetData("receive_user_name",$edit_data)
+			, "receive_user_sn" => tryGetData("receive_user_sn",$edit_data)
+			, "is_receive" => tryGetData("is_receive",$edit_data,0)
+			, "updated" =>  date( "Y-m-d H:i:s" )
+		);
+		
+		
+		if($this->it_model->updateData( "mailbox" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$arr_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$arr_data["client_sn"] = tryGetData("sn",$edit_data);			
+			$content_sn = $this->it_model->addData( "mailbox" , $arr_data );
 			if($content_sn > 0)
 			{		
 				echo '1';		
