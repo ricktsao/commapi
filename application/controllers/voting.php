@@ -1,172 +1,124 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Voting extends CI_Controller {	
-	
-	function __construct() 
-	{
-		parent::__construct();	  
+/**
+ * This is an example of a few basic user interaction methods you could use
+ * all done with a hardcoded array
+ *
+ * @package         CodeIgniter
+ * @subpackage      Rest Server
+ * @category        Controller
+ * @author          Phil Sturgeon, Chris Kacerguis
+ * @license         MIT
+ * @link            https://github.com/chriskacerguis/codeigniter-restserver
+ */
+class Voting extends REST_Controller {
+
+    function __construct()
+    {
+        // Construct the parent class
+        parent::__construct();
+
 		$this->load->database();
-	}	
+
+        // Configure limits on our controller methods
+        // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
+        $this->methods['index_get']['limit'] = 500; // 500 requests per hour per user/key
+        $this->methods['index_post']['limit'] = 100; // 100 requests per hour per user/key
+        $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
+
+
+		//$this->load->model('Voting_model');	
+    }
+
+    
 	
-	public function index()
-	{		
 	
-	}	
+	public function index_get()
+    {
+		
+		$comm_id = tryGetData('comm_id', $_GET, NULL);
+		$client_sn = tryGetData('sn', $_GET, NULL);
+		//dprint($_GET);
+		
+        if( isNull($comm_id)) 
+		{
 
-	//更新投票主體
-	public function updateContent()
-	{		
-		
-		$edit_data = [];
+            $this->set_response([
+                'status' => FALSE,
+                'message' => '缺少必要資料，請確認'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 
-		foreach ($_POST as $key => $value) {
-			$edit_data[$key] = $this->input->post($key,TRUE);
-		}
-
-		
-		$comm_id = tryGetData("comm_id",$edit_data);
-
-		unset($edit_data['$comm_id']);
-		
-		
-		
-		if($this->it_model->updateData( "voting" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".$comm_id."'"))
-		{					
-			echo '1';						
-		}
+        }
 		else 
 		{
-			$edit_data["comm_id"] = $comm_id;
-			$edit_data["client_sn"] = $edit_data['sn'];
-			unset($edit_data['sn']);
-			//$arr_data["create_date"] =   date( "Y-m-d H:i:s" );
-			$content_sn = $this->it_model->addData( "voting" , $edit_data );
-			if($content_sn > 0)
-			{		
-				echo '1';		
+			$condition = "comm_id = '".$comm_id."' ";
+			if( isNotNull($client_sn) )
+			{
+				$condition .= "and client_sn = '".$client_sn."'";
 			}
-			else
+			
+			$news_list = $this->c_model->GetList( "news" , $condition ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
+			if ($news_list['count'] > 0) 
 			{
-				echo '0';	
-			}		
-		}	
-		
-	}
-
-	//刪除投票主體
-	public function removeVoting(){
-		$edit_data = [];
-		foreach ($_POST as $key => $value) {
-			$edit_data[$key] = $this->input->post($key,TRUE);
-		}
-
-		$query ="UPDATE voting  SET is_del=1 WHERE comm_id='".$edit_data['comm_id']."' AND client_sn in (".$edit_data["sn"].")";
-
-		$this->it_model->runSqlCmd($query);
-
-		echo "1";
-	}
-
-	//更新投票項目之前的程序
-	public function preUpdateOption(){
-		$edit_data = [];
-		foreach ($_POST as $key => $value) {
-			$edit_data[$key] = $this->input->post($key,TRUE);
-		}
-
-		$query ="UPDATE voting 
-				LEFT JOIN voting_option ON voting.client_sn = voting_option.voting_sn
-				SET voting_option.is_del = 1
-				WHERE voting.client_sn = ".$edit_data["sn"]." AND voting_option.comm_id = '".$edit_data['comm_id']."'";
-
-		$this->it_model->runSqlCmd($query);	
-	}
-
-	//投票項目
-	public function updateOption()
-	{		
-		
-		$edit_data = [];
-
-		foreach ($_POST as $key => $value) {
-			$edit_data[$key] = $this->input->post($key,TRUE);
-		}
-
-		
-		$comm_id = tryGetData("comm_id",$edit_data);
-
-		unset($edit_data['$comm_id']);
-		
-		
-		
-		if($this->it_model->updateData( "voting_option" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".$comm_id."'"))
-		{					
-			echo '1';						
-		}
-		else 
-		{
-			$edit_data["comm_id"] = $comm_id;
-			$edit_data["client_sn"] = $edit_data['sn'];
-			unset($edit_data['sn']);
-			//$arr_data["create_date"] =   date( "Y-m-d H:i:s" );
-			$content_sn = $this->it_model->addData( "voting_option" , $edit_data );
-			if($content_sn > 0)
-			{		
-				echo '1';		
-			}
-			else
-			{
-				echo '0';	
-			}		
-		}	
-		
-	}
-	
-	//前台使用者投票
-	public function userVoting(){
-		foreach( $_POST as $key => $value )
-		{
-			$edit_data[$key] = $this->input->post($key,TRUE);			
-		}
-
-		$edit_data['is_sync'] = 1;
-		$content_sn = $this->it_model->addData( "voting_record" , $edit_data );
-		if($content_sn > 0){
-			echo "1";
-		}else{
-			echo "0";
-		}
-
-	}
-	
-	
-	function isNotNull($value) 
-	{
-		if(!isset($value))
-		{
-			return FALSE;
-		}
-		if (is_array($value)) 
-		{
-			if (sizeof($value) > 0) 
-			{
-				return true;
+				$ajax_ary = array();
+				foreach ($news_list["data"] as $news_info) 
+				{
+					$img_url = "";
+					if(isNotNull(tryGetData("img_filename",$news_info)))
+					{
+						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/news/".$news_info["img_filename"];
+					}					
+					
+					$tmp_data = array
+					(				
+						"sn"=> $news_info["client_sn"],
+						"title"=> $news_info["title"],
+						"content" => $news_info["content"],
+						"img_url" => $img_url,
+						"news_date" =>  showDateFormat($news_info["start_date"])					
+					);
+					
+					array_push($ajax_ary,$tmp_data);
+				}
+			
+				$this->set_response($ajax_ary, REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code	
 			} 
 			else 
 			{
-				return false;
-			}
-		} 
-		else 
-		{
-			if ( (is_string($value) || is_int($value) || is_float($value)) && ($value != '') && ($value != 'NULL') && (strlen(trim($value)) > 0)) 
-			{
-				return true;
-			} 
-			else 
-			{
-				return false;
+
+				// Set the response and exit
+				$this->response([
+					'status' => FALSE,
+					'message' => '找不到任何資訊，請確認'
+				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
 			}
 		}
 	}
+	
+
+    	
+
+    public function index_delete($comm_id, $sn)
+    {
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$sn = tryGetData('sn', $_POST, NULL);
+
+        // Validate the id.
+        if ( isNull($comm_id) && isNULL($sn) )
+        {
+            // Set the response and exit
+            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+        }
+
+        // $this->some_model->delete_something($id);
+        $message = [
+            'sn' => $sn,
+            'message' => 'Deleted the resource'
+        ];
+
+        $this->set_response($message, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
+    }
+
 }
