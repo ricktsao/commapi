@@ -359,7 +359,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</td>
 		</tr>	
 		<tr class="row-even"><td>POST</td>
-			<td>/detail/index/</td>
+			<td>/repair/detail/</td>
 			<td class="left">comm_id : 社區ID<br>app_id : App ID<br>sn : 報修編號</td>
 			<td>
 			取得指定的一則報修回覆紀錄<br>
