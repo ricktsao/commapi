@@ -524,6 +524,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</table>
 </div>
 
+<div class="section" id="defining-the-api-rents">
+	<h3>意見調查</h3>
+	<table border="1" class="docutils">
+		<thead valign="bottom">
+			<tr class="row-odd">
+				<th class="head">Method</th>
+				<th class="head">URL</th>
+				<th class="head">Params</th>
+				<th class="head">Action</th>
+			</tr>
+		</thead>
+		<tbody valign="top">
+			<tr class="row-even">
+				<td>GET</td>
+				<td>/Voting/index/</td>
+				<td class="left">comm_id : 社區ID<br/>
+							app_id : App ID</td>
+				<td>取得可投票的議列表</td>
+			</tr>
+			<tr class="row-odd">
+				<td>GET</td>
+				<td>/Voting/detail/</td>
+				<td class="left">comm_id : 社區ID
+					<br /> sn : 議題編號</td>
+				<td>進入議題投票頁面</br>
+					* is_multiple: 0 單選/ 1複選</td>
+			</tr>
+			<tr class="row-even">
+				<td>POST</td>
+				<td>/Voting/voting/</td>
+				<td class="left">comm_id : 社區ID
+					<br /> voting_sn : 議題編號
+					<br /> app_id : App ID
+					<br/> option_sn : 選項編號</td>
+				<td>投票</br>
+					 option_sn: 若是複選則用逗號隔開 92,95</td>
+			</tr>
+			<tr class="row-odd">
+				<td>GET</td>
+				<td>/Voting/result/</td>
+				<td class="left">comm_id : 社區ID
+				</td>
+				<td>取得已經開票的列表</td>
+			</tr>
+			<tr class="row-even">
+				<td>GET</td>
+				<td>/Voting/result_detail/</td>
+				<td class="left">comm_id : 社區ID<br/>
+					sn:議題編號
+				</td>
+				<td>取得已經開票的結果</td>
+			</tr>
+			<tr class="row-odd">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
     </div>
 
