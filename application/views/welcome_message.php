@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	
 <div class="section" id="defining-the-api-user">
-<h3>住戶資訊  (參照 community_cloud.sys_user 資料表)</h3>
+<h3>住戶機制  (參照 community_cloud.sys_user 資料表)</h3>
 <table border="1" class="docutils">
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Method</th>
@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr class="row-even"><td>POST</td>
 <td>/user/activate/</td>
 <td class="left">comm_id : 社區ID<br /> id : 住戶ID <br /> app_id : 住戶App ID</td>
-<td>住戶開通</td>
+<td>住戶APP開通</td>
 </tr>
 
 </tbody>
