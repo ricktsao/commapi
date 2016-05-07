@@ -24,11 +24,13 @@ class Voting extends REST_Controller {
         // Configure limits on our controller methods
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
         $this->methods['index_get']['limit'] = 500; // 500 requests per hour per user/key
-        $this->methods['index_post']['limit'] = 100; // 100 requests per hour per user/key
-        $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
+        $this->methods['detail_get']['limit'] = 500; // 500 requests per hour per user/key        
+        $this->methods['result_get']['limit'] = 500; // 100 requests per hour per user/key
+        $this->methods['result_detail_get']['limit'] = 500; // 50 requests per hour per user/key
+        $this->methods['voting_post']['limit'] = 500; // 50 requests per hour per user/key
 
 
-		//$this->load->model('Voting_model');	
+		$this->load->model('Voting_model');	
     }
 
     
@@ -38,10 +40,10 @@ class Voting extends REST_Controller {
     {
 		
 		$comm_id = tryGetData('comm_id', $_GET, NULL);
-		$client_sn = tryGetData('sn', $_GET, NULL);
+		$app_id  = tryGetData('app_id', $_GET, NULL);
 		//dprint($_GET);
 		
-        if( isNull($comm_id)) 
+        if( isNull($comm_id) || isNull($app_id)) 
 		{
 
             $this->set_response([
@@ -51,36 +53,15 @@ class Voting extends REST_Controller {
 
         }
 		else 
-		{
-			$condition = "comm_id = '".$comm_id."' ";
-			if( isNotNull($client_sn) )
-			{
-				$condition .= "and client_sn = '".$client_sn."'";
-			}
-			
-			$news_list = $this->c_model->GetList( "news" , $condition ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
-			if ($news_list['count'] > 0) 
+		{	
+
+			$list = $this->Voting_model->frontendGetVotingList($app_id,$comm_id);
+
+			if ($list['count'] > 0) 
 			{
 				$ajax_ary = array();
-				foreach ($news_list["data"] as $news_info) 
-				{
-					$img_url = "";
-					if(isNotNull(tryGetData("img_filename",$news_info)))
-					{
-						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/news/".$news_info["img_filename"];
-					}					
-					
-					$tmp_data = array
-					(				
-						"sn"=> $news_info["client_sn"],
-						"title"=> $news_info["title"],
-						"content" => $news_info["content"],
-						"img_url" => $img_url,
-						"news_date" =>  showDateFormat($news_info["start_date"])					
-					);
-					
-					array_push($ajax_ary,$tmp_data);
-				}
+				
+				$ajax_ary = $list['data'];
 			
 				$this->set_response($ajax_ary, REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code	
 			} 
@@ -96,29 +77,207 @@ class Voting extends REST_Controller {
 			}
 		}
 	}
-	
 
-    	
+	public function detail_get(){
 
-    public function index_delete($comm_id, $sn)
-    {
-		$comm_id = tryGetData('comm_id', $_POST, NULL);
-		$sn = tryGetData('sn', $_POST, NULL);
+		$comm_id = tryGetData('comm_id', $_GET, NULL);
+		$sn  = tryGetData('sn', $_GET, NULL);
 
-        // Validate the id.
-        if ( isNull($comm_id) && isNULL($sn) )
-        {
-            // Set the response and exit
-            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+		if( isNull($comm_id) || isNull($sn)) 
+		{
+
+            $this->set_response([
+                'status' => FALSE,
+                'message' => '缺少必要資料，請確認'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
         }
+		else 
+		{		
 
-        // $this->some_model->delete_something($id);
-        $message = [
-            'sn' => $sn,
-            'message' => 'Deleted the resource'
-        ];
+			$query = "SELECT client_sn as voting_sn,
+					subject,
+					description,
+					start_date,
+					end_date,
+					is_multiple,
+					user_sn
+					FROM voting WHERE client_sn=".$sn." AND is_del = 0 AND comm_id ='".$comm_id."'";
 
-        $this->set_response($message, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
-    }
+			$voting = $this->it_model->runSql($query);
+
+			
+
+			if($voting['count']>0){
+
+				$voting = $voting['data'][0];
+
+				//get post_user
+				if($voting['user_sn']!=''){
+
+					$query = "SELECT name FROM sys_user WHERE client_sn = ".$voting['user_sn']." AND comm_id='".$comm_id."'";
+					$post_user = $this->it_model->runSql($query);
+					if($post_user['count'] > 0){
+						$voting['creater_user'] = 	$post_user['data'][0]['name'];
+					}else{
+						$voting['creater_user'] = NULL;
+					}
+				}
+
+				unset($voting['user_sn']);
+
+
+				$query = "SELECT 
+						client_sn as option_sn,
+						text
+						
+						FROM voting_option
+						WHERE voting_sn = ".$sn." AND is_del = 0 AND comm_id ='".$comm_id."'";
+
+				$list = $this->it_model->runSql($query);
+
+				$voting['option'] = $list['data'];
+
+				$this->set_response($voting, REST_Controller::HTTP_OK);
+
+
+
+			}else{
+
+				$this->set_response([
+	                'status' => FALSE,
+	                'message' => '缺少必要資料，請確認'
+	            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+			}
+
+
+		}
+
+
+
+	}
+
+
+	public function result_get(){
+		$comm_id = tryGetData('comm_id', $_GET, NULL);
+		
+		//dprint($_GET);		
+        if( isNull($comm_id)) 
+		{
+
+            $this->set_response([
+                'status' => FALSE,
+                'message' => '缺少必要資料，請確認'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+        }
+		else 
+		{
+			
+			$list = $this->Voting_model->frontendGetVotingResultList($comm_id);		
+			if ($list['count'] > 0) 
+			{
+				
+				$ajax_ary = $list['data'];
+				$this->set_response($ajax_ary, REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code	
+			} 
+			else 
+			{
+
+				// Set the response and exit
+				$this->response([
+					'status' => FALSE,
+					'message' => '找不到任何資訊，請確認'
+				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+			}
+		}
+	}
+
+	public function result_detail_get(){
+		$comm_id = tryGetData('comm_id', $_GET, NULL);
+		$sn = tryGetData('sn', $_GET, NULL);
+
+
+		if( isNull($comm_id) || isNull($sn)) 
+		{
+
+            $this->set_response([
+                'status' => FALSE,
+                'message' => '缺少必要資料，請確認'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+        }
+		else 
+		{
+			
+			$list = $this->Voting_model->votingRecord($sn,$comm_id);
+
+			if ($list) 
+			{
+				
+				$ajax_ary = $list;
+				$this->set_response($ajax_ary, REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code	
+			} 
+			else 
+			{
+
+				// Set the response and exit
+				$this->response([
+					'status' => FALSE,
+					'message' => '找不到任何資訊，請確認'
+				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+			}
+		}
+		
+	} 
+
+
+	public function voting_post(){
+
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$option_sn = tryGetData('option_sn', $_POST, NULL);
+		$voting_sn = tryGetData('voting_sn', $_POST, NULL);
+		$app_id =  tryGetData('app_id', $_POST, NULL);
+		
+
+		if(isNull($comm_id) || isNull($option_sn) || isNull($voting_sn) || isNull($app_id)){
+
+			 $this->set_response([
+                'status' => FALSE,
+                'message' => '缺少必要資料，請確認'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+		}else{
+			//get user_sn
+			//get user
+			$query = "SELECT client_sn FROM sys_user WHERE comm_id='".$comm_id."' AND app_id ='".$app_id."'";
+			$member_sn = $this->it_model->runSql($query);
+
+			if($member_sn['count']==0){
+				 $this->set_response([
+	                'status' => FALSE,
+	                'message' => '缺少必要資料，請確認'
+	            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+			}
+
+			$member_sn = $member_sn['data'][0]['client_sn'];
+
+			$option_sn = explode(",",$option_sn);
+
+			for($i=0;$i<count($option_sn);$i++){
+
+				 $this->Voting_model->frontendGetVotingUpdate($voting_sn,$option_sn[$i],$member_sn ,$comm_id);
+
+			}
+
+			
+			$this->set_response(array("success"=>1), REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code	
+		}
+
+
+
+	} 
 
 }
