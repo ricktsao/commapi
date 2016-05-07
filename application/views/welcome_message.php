@@ -148,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</td>
 		</tr>
 
-<tr class="row-odd"><td>POST</td>
+<tr class="row-odd"><td>GET</td>
 <td>/user/index/</td>
 <td class="left">comm_id : 社區ID<br /> app_id : 住戶App ID</td>
 <td>取得指定的住戶資訊<br /> (簡單個資與權限)</td>
