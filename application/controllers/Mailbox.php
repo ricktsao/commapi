@@ -53,7 +53,7 @@ class Mailbox extends REST_Controller {
 				$condition = "comm_id = '".$comm_id."' and user_sn = '".$sys_user["sn"]."' ";		
 			
 			
-				$mailbox_list = $this->it_model->listData( "mailbox" , $condition , NULL , NULL , array("created"=>"desc") );
+				$mailbox_list = $this->it_model->listData( "mailbox" , $condition , NULL , NULL , array("updated"=>"desc") );
 
 				if ($mailbox_list['count'] > 0) 
 				{
