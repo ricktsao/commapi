@@ -479,7 +479,7 @@ class Sync extends CI_Controller {
 	
 	
 	public function fileUpload()
-	{		
+	{
 		foreach( $_FILES as $key => $file )
 		{
 			if(isNotNull($file['name']))
@@ -499,32 +499,40 @@ class Sync extends CI_Controller {
 				}
 				//dprint(set_realpath("upload/".$comm_id));
 				
-				
 				if (!is_dir(set_realpath("upload/".$comm_id."/".$folder)))
 				{
 					// 租售屋照片放在各則物件序號下
-					if (mb_substr($folder, 0, 9) == 'houst_to_') {
+					if (mb_substr($folder, 0, 9) == 'house_to_') {
 
-						$folder_level = explode("\\", $folder);
-						mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]),0777);
-						mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]),0777);
+						$folder_level = explode("/", $folder);
+//dprint($folder_level);
+
+						if (!is_dir(set_realpath("upload/".$comm_id."/".$folder_level[0])))
+						{
+//dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]));
+							mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]),0777);
+						}
+						
+						if (!is_dir(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1])))
+						{
+//@dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]));
+
+							mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]),0777);
+						}
 
 					} else {
 
 						mkdir(set_realpath("upload/".$comm_id."/".$folder),0777);
 					}
-					
+
 				}
 				
 				//圖片處理 img_filename	
 				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];				
 				move_uploaded_file( $file['tmp_name'], $uploadedUrl);
 				
-			
-				
 			}		
 		}	
-		
 
 		//dprint($_FILES);
 	}
