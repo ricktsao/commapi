@@ -587,6 +587,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 
+<div class="section" id="defining-the-api-news">
+<h3>郵件通知</h3>
+	<table border="1" >
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+			<th class="head">URL</th>
+			<th class="head">Params</th>
+			<th class="head">Action</th>
+		</tr>
+		</thead>
+		<tbody valign="top">
+		<tr class="row-even"><td>POST</td>
+			<td>/mailbox/index/</td>
+			<td class="left">comm_id : 社區ID<br>app_id : App ID</td>
+			<td>
+				郵件查詢<br>
+				mail_no:代收編號,
+				type : 類型
+				memo : 備註
+				post_date :登錄時間
+			</td>
+		</tr>	
+				
+		</tbody>
+	</table>
+</div>
+
+
     </div>
 
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php //echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
