@@ -95,30 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			app_id 可使用 1255567822,1234507844,1234567233		
 	</h5>
 	
-<div class="section" id="defining-the-api-news">
-<h3>登入  </h3>
-	<table border="1" >
-		<thead valign="bottom">
-			<tr class="row-odd"><th class="head">Method</th>
-			<th class="head">URL</th>
-			<th class="head">Params</th>
-			<th class="head">Action</th>
-		</tr>
-		</thead>
-		<tbody valign="top">
-		<tr class="row-even"><td>POST</td>
-			<td>/user/login</td>
-			<td class="left">
-				comm_id : 社區ID<br>
-				app_id : App ID
-			</td>
-			<td>
-				登入				
-			</td>
-		</tr>	
-		</tbody>
-	</table>
-</div>
+
 	
 <div class="section" id="defining-the-api-news">
 <h3>個人通知訊息</h3>
@@ -160,9 +137,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </tr>
 </thead>
 <tbody valign="top">
+		<tr class="row-even"><td>POST</td>
+			<td>/user/login</td>
+			<td class="left">
+				comm_id : 社區ID<br>
+				app_id : App ID
+			</td>
+			<td>
+				登入				
+			</td>
+		</tr>
+
 <tr class="row-odd"><td>POST</td>
 <td>/user/index/</td>
-<td class="left">comm_id : 社區ID<br /> id : 住戶ID <br /> app_id : 住戶App ID</td>
+<td class="left">comm_id : 社區ID<br /> app_id : 住戶App ID</td>
 <td>取得指定的住戶資訊<br /> (簡單個資與權限)</td>
 </tr>
 <tr class="row-even"><td>POST</td>
