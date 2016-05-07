@@ -36,10 +36,9 @@ class User extends REST_Controller {
 		/* http://localhost/commapi/user/index/?comm_id=5tgb4rfv&id=1234567891&app_id=666777888 */
 
 		$comm_id = tryGetData('comm_id', $_GET, NULL);
-		$id = tryGetData('id', $_GET, NULL);
 		$app_id = tryGetData('app_id', $_GET, NULL);
 
-        if ( isNull($comm_id) && isNull($id) && isNull($app_id) ) {
+        if ( isNull($comm_id) && isNull($app_id) ) {
 
             $this->set_response([
                 'status' => FALSE,
@@ -48,11 +47,10 @@ class User extends REST_Controller {
 
         } else {
 
-			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, id, app_id, name, gender, building_id, voting_right, gas_right '
+			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, app_id, name, if(`gender`=2,"女","男") as gender, building_id, building_text, voting_right, gas_right '
 					.'  FROM sys_user '
 					.' WHERE role = "I" '
 					.'   AND comm_id="'.$comm_id.'" '
-					.'   AND '.'id="'.$id.'" '
 					.'   AND '.'app_id="'.$app_id.'" '	//.$this->it_model->getEffectedSQL('rent_house');
 					;
 			$result = $this->it_model->runSql($query);
@@ -177,7 +175,7 @@ class User extends REST_Controller {
 					.' WHERE role = "I" '
 					.'   AND comm_id="'.$comm_id.'" '
 					.'   AND id="'.$id.'" '
-					.'   AND app_id IS NULL '	//.$this->it_model->getEffectedSQL('rent_house');
+					.'   AND app_id IS NULL or app_id ="" '	//.$this->it_model->getEffectedSQL('rent_house');
 					;
 			$result = $this->it_model->runSql($query);
 			// Check if the rents data store contains rents (in case the database result returns NULL)
@@ -218,7 +216,7 @@ class User extends REST_Controller {
 				// Set the response and exit
 				$this->response([
 					'status' => FALSE,
-					'message' => '找不到您的住戶資訊或者您已開通，請確認!!'
+					'message' => '找不到您的住戶資訊或者您已開通，請確認!!'.$query
 				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 
 			}
