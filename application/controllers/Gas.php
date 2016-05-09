@@ -52,9 +52,7 @@ class Gas extends REST_Controller {
 			{
 				$sys_user = $sys_user["data"][0];
 				
-				$condition = "comm_id = '".$comm_id."' and building_id = '".$sys_user["building_id"]."' ";		
-			
-			
+				$condition = "comm_id = '".$comm_id."' and building_id = '".$sys_user["addr"]."' ";				
 				$gas_list = $this->it_model->listData( "gas" , $condition , NULL , NULL , array("created"=>"desc") );
 
 				if ($gas_list['count'] > 0) 
@@ -190,13 +188,14 @@ class Gas extends REST_Controller {
 				"client_sync" => 0
 				);
 				
-				$condition = "building_id = '".$sys_user["building_id"]."' AND year = '".$year."' AND month = '".$month."' and comm_id='".$comm_id."'";
+				$condition = "building_id = '".$sys_user["addr"]."' AND year = '".$year."' AND month = '".$month."' and comm_id='".$comm_id."'";
 				$result = $this->it_model->updateData( "gas" , $update_data,$condition );					
 				
 				if($result === FALSE)
 				{
 					$update_data["comm_id"] = $comm_id;
-					$update_data["building_id"] = $sys_user["building_id"];
+					$update_data["building_id"] = $sys_user["addr"];
+					$update_data["building_text"] = $sys_user["building_id"];
 					$update_data["year"] = $year;
 					$update_data["month"] = $month;
 					$update_data["created"] = date( "Y-m-d H:i:s" );

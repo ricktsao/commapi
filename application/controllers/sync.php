@@ -9,6 +9,23 @@ class Sync extends CI_Controller {
 	{
 		parent::__construct();	  
 		$this->load->database();
+
+		
+		// 取得戶別相關參數
+		$this->load->model('auth_model');
+		$this->building_part_01 = $this->auth_model->getWebSetting('building_part_01');
+		$building_part_01_value = $this->auth_model->getWebSetting('building_part_01_value');
+		$this->building_part_02 = $this->auth_model->getWebSetting('building_part_02');
+		$building_part_02_value = $this->auth_model->getWebSetting('building_part_02_value');
+		$this->building_part_03 = $this->auth_model->getWebSetting('building_part_03');
+
+		if (isNotNull($building_part_01_value)) {
+			$this->building_part_01_array = array_merge(array(0=>' -- '), explode(',', $building_part_01_value));
+		}
+
+		if (isNotNull($building_part_02_value)) {
+			$this->building_part_02_array = array_merge(array(0=>' -- '), explode(',', $building_part_02_value));
+		}
 	}
 	
 	
@@ -551,6 +568,125 @@ class Sync extends CI_Controller {
 		echo $upload_file_list;
 	}
 	
+
+
+
+
+	public function updateUser()
+	{	
+		
+		$edit_data = array();
+		foreach( $_POST as $key => $value )
+		{
+			if (mb_substr($key,0,4) == 'app_' and $key!=='app_id') {
+				continue;
+			} elseif (in_array($key, array('account', 'password', 'is_sync', 'owner_addr')) ) {
+				continue;
+			}
+			
+			if ( $key == 'name' ) {
+				$name = $this->input->post($key,TRUE);
+				$name = mb_substr($name, 0, 1);
+				$edit_data[$key] = $name;
+
+			} else {
+				$edit_data[$key] = $this->input->post($key,TRUE);
+			}
+		}
+
+		$edit_data['building_text'] = building_id_to_text($edit_data['building_id']);
+
+
+		if ($edit_data['gender'] == 2) {
+			$edit_data['name'] .= '小姐';
+		} else {
+			$edit_data['name'] .= '先生';
+		}
+
+		if($this->it_model->updateData( "sys_user" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+		{
+			echo '1';
+
+		} else  {
+
+			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$edit_data["client_sn"] = tryGetData("sn",$edit_data);			
+			$content_sn = $this->it_model->addData( "sys_user" , $edit_data );
+
+			if($content_sn > 0) {		
+				echo '1';		
+			} else {
+				echo '0';	
+			}		
+		}	
+		
+	}
+
+
+	public function updateRentHouse()
+	{	
+		
+		$edit_data = array();
+		foreach( $_POST as $key => $value )
+		{
+			if ($key!=='is_sync') {
+				continue;
+			}
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		if($this->it_model->updateData( "house_to_rent" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+		{					
+			echo '1';
+
+		} else  {
+
+			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$edit_data["client_sn"] = tryGetData("sn",$edit_data);			
+			$content_sn = $this->it_model->addData( "house_to_rent" , $edit_data );
+
+			if($content_sn > 0) {		
+				echo '1';		
+			} else {
+				echo '0';	
+			}		
+		}	
+		
+	}
+
+
+
+	public function updateSaleHouse()
+	{	
+		
+		$edit_data = array();
+		foreach( $_POST as $key => $value )
+		{
+			if ($key!=='is_sync') {
+				continue;
+			}
+			$edit_data[$key] = $this->input->post($key,TRUE);			
+		}	
+		
+		if($this->it_model->updateData( "house_to_sale" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+		{					
+			echo '1';
+
+		} else  {
+
+			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			$edit_data["client_sn"] = tryGetData("sn",$edit_data);			
+			$content_sn = $this->it_model->addData( "house_to_sale" , $edit_data );
+
+			if($content_sn > 0) {		
+				echo '1';		
+			} else {
+				echo '0';	
+			}		
+		}	
+		
+	}
+
 	
 	/**
 	 * 查詢由app user登入狀況
