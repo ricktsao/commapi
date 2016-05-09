@@ -479,7 +479,7 @@ class Sync extends CI_Controller {
 	
 	
 	public function fileUpload()
-	{		
+	{
 		foreach( $_FILES as $key => $file )
 		{
 			if(isNotNull($file['name']))
@@ -499,23 +499,42 @@ class Sync extends CI_Controller {
 				}
 				//dprint(set_realpath("upload/".$comm_id));
 				
-				
 				if (!is_dir(set_realpath("upload/".$comm_id."/".$folder)))
 				{
-					mkdir(set_realpath("upload/".$comm_id."/".$folder),0777);
+					// 租售屋照片放在各則物件序號下
+					if (mb_substr($folder, 0, 9) == 'house_to_') {
+
+						$folder_level = explode("/", $folder);
+//dprint($folder_level);
+
+						if (!is_dir(set_realpath("upload/".$comm_id."/".$folder_level[0])))
+						{
+//dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]));
+							mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]),0777);
+						}
+						
+						if (!is_dir(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1])))
+						{
+//@dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]));
+
+							mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]),0777);
+						}
+
+					} else {
+
+						mkdir(set_realpath("upload/".$comm_id."/".$folder),0777);
+					}
+
 				}
 				
 				//圖片處理 img_filename	
 				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];				
 				move_uploaded_file( $file['tmp_name'], $uploadedUrl);
 				
-			
-				
 			}		
 		}	
-		
 
-		dprint($_FILES);
+		//dprint($_FILES);
 	}
 	
 	
@@ -629,12 +648,12 @@ class Sync extends CI_Controller {
 		$edit_data = array();
 		foreach( $_POST as $key => $value )
 		{
-			if ($key!=='is_sync') {
+			if ($key=='is_sync') {
 				continue;
 			}
 			$edit_data[$key] = $this->input->post($key,TRUE);			
 		}	
-		
+
 		if($this->it_model->updateData( "house_to_rent" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
 		{					
 			echo '1';
@@ -662,7 +681,7 @@ class Sync extends CI_Controller {
 		$edit_data = array();
 		foreach( $_POST as $key => $value )
 		{
-			if ($key!=='is_sync') {
+			if ($key=='is_sync') {
 				continue;
 			}
 			$edit_data[$key] = $this->input->post($key,TRUE);			
