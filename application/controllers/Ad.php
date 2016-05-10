@@ -40,7 +40,6 @@ class Ad extends REST_Controller {
 		
         if( isNull($comm_id)) 
 		{
-
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
@@ -71,7 +70,7 @@ class Ad extends REST_Controller {
 					(				
 						"sn"=> $news_info["client_sn"],						
 						"img_url" => $img_url,
-						"post_date" =>  showDateFormat($news_info["created"])	
+						"post_date" =>  showDateFormat($news_info["create_date"])	
 					);
 					
 					array_push($ajax_ary,$tmp_data);
