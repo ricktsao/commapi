@@ -81,12 +81,13 @@ Class Voting_model extends IT_Model
 
 	}
 
-	public function frontendGetVotingUpdate($voting_sn,$voting_option_sn,$user_sn,$comm_id){
+	public function frontendGetVotingUpdate($voting_sn,$voting_option_sn,$user_sn,$user_id,$comm_id){
 
 		$arr_data =array(
 			"voting_sn" => $voting_sn,
 			"option_sn" =>$voting_option_sn,
-			"user_sn" =>$user_sn,		
+			"user_sn" =>$user_sn,
+			"user_id" => $user_id,		
 			"created" => date("Y-m-d H:i:s"),
 			"comm_id" => $comm_id
 		);		

@@ -122,6 +122,67 @@ class Sync_voting extends CI_Controller {
 		
 	}
 	
+	public function updateUserVoting()
+	{		
+		
+		$edit_data = [];
+
+		foreach ($_POST as $key => $value) {
+			$edit_data[$key] = $this->input->post($key,TRUE);
+		}
+
+		
+		$comm_id = tryGetData("comm_id",$edit_data);
+
+		unset($edit_data['$comm_id']);
+		
+		$edit_data['is_sync'] = 1;
+		
+		
+		if($this->it_model->updateData( "voting_record" , $edit_data, "voting_sn ='".$edit_data["voting_sn"]."' and option_sn='".$edit_data["option_sn"]."' and user_sn='".$edit_data["user_sn"]."' and comm_id = '".$comm_id."'"))
+		{					
+			echo '1';						
+		}
+		else 
+		{
+			$edit_data["comm_id"] = $comm_id;
+		//	$edit_data["client_sn"] = $edit_data['sn'];
+			unset($edit_data['sn']);
+			//$arr_data["create_date"] =   date( "Y-m-d H:i:s" );
+			$content_sn = $this->it_model->addData( "voting_record" , $edit_data );
+			if($content_sn > 0)
+			{		
+				echo '1';		
+			}
+			else
+			{
+				echo '0';	
+			}		
+		}	
+		
+	}
+
+
+	public function getUnSyncRecord(){
+
+		$edit_data = [];
+
+		foreach ($_POST as $key => $value) {
+			$edit_data[$key] = $this->input->post($key,TRUE);
+		}
+
+		
+
+
+		$query = "SELECT * FROM voting_record WHERE is_sync=0 AND comm_id = '".$edit_data['comm_id']."'";
+
+		$data = $this->it_model->runSql($query);
+
+		echo json_encode($data['data']);
+
+
+	}
+
 	//前台使用者投票
 	public function userVoting(){
 		foreach( $_POST as $key => $value )
