@@ -24,21 +24,23 @@ class Sync_album extends CI_Controller {
 		}
 
 		
+		
+		$sn = tryGetData("sn",$edit_data);
 		$comm_id = tryGetData("comm_id",$edit_data);
-
-		unset($edit_data['$comm_id']);
+		unset($edit_data['sn']);
+		unset($edit_data['$comm_id']);	
 		
 		
 		
-		if($this->it_model->updateData( "album" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".$comm_id."'"))
+		if($this->it_model->updateData( "album" , $edit_data, "client_sn ='".$sn."' and comm_id = '".$comm_id."'"))
 		{					
 			echo '1';						
 		}
 		else 
 		{
 			$edit_data["comm_id"] = $comm_id;
-			$edit_data["client_sn"] = $edit_data['sn'];
-			unset($edit_data['sn']);
+			$edit_data["client_sn"] = $sn;
+			
 			//$arr_data["create_date"] =   date( "Y-m-d H:i:s" );
 			$content_sn = $this->it_model->addData( "album" , $edit_data );
 			if($content_sn > 0)
@@ -80,19 +82,20 @@ class Sync_album extends CI_Controller {
 		}
 
 		
+		$sn = tryGetData("sn",$edit_data);
 		$comm_id = tryGetData("comm_id",$edit_data);
-
+		unset($edit_data['sn']);
 		unset($edit_data['$comm_id']);		
 		
-		if($this->it_model->updateData( "album_item" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".$comm_id."'"))
+		if($this->it_model->updateData( "album_item" , $edit_data, "client_sn ='".$sn."' and comm_id = '".$comm_id."'"))
 		{					
 			echo '1';						
 		}
 		else 
 		{
 			$edit_data["comm_id"] = $comm_id;
-			$edit_data["client_sn"] = $edit_data['sn'];
-			unset($edit_data['sn']);
+			$edit_data["client_sn"] = $sn;
+		
 			//$arr_data["create_date"] =   date( "Y-m-d H:i:s" );
 			$content_sn = $this->it_model->addData( "album_item" , $edit_data );
 			if($content_sn > 0)
