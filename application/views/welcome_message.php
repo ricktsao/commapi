@@ -621,6 +621,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</tbody>
 	</table>
 </div>
+
+
+
+<div class="section" id="defining-the-api-news">
+	<h3>系統公告</h3>
+	<table border="1" class="docutils">
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+				<th class="head">URL</th>
+				<th class="head">Params</th>
+				<th class="head">Action</th>
+			</tr>
+		</thead>
+		<tbody valign="top">
+			<tr class="row-even"><td>GET</td>
+				<td>/sys_news/index/</td>
+				<td class="left">comm_id : 社區ID</td>
+				<td>取得所有系統公告列表</td>
+			</tr>
+			<tr class="row-odd"><td>GET</td>
+				<td>/sys_news/index/</td>
+				<td class="left">comm_id : 社區ID<br /> sn : 系統公告編號</td>
+				<td>取得指定的一則系統公告</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
     </div>
 
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php //echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
