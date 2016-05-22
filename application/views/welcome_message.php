@@ -91,9 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</h1>
 	
     <div id="body">
-<h5 style="color:red">comm_id 可使用 5tgb4rfv<br>
-			app_id 可使用 1255567822,1234507844,1234567233		
-	</h5>
+	<span style="color:red">社區ID(comm_id)一律使用 5tgb4rfv 作測試</span>
 	
 
 	
@@ -137,6 +135,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </tr>
 </thead>
 <tbody valign="top">
+<tr class="row-even"><td>POST</td>
+<td>/user/activate/</td>
+<td class="left">comm_id : 社區ID<br /> act_code : APP 開通碼 <br /> app_id : 住戶App ID</td>
+<td>住戶APP開通</td>
+</tr>
 		<tr class="row-even"><td>POST</td>
 			<td>/user/login</td>
 			<td class="left">
@@ -144,23 +147,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				app_id : App ID
 			</td>
 			<td>
-				登入				
+				住戶登入				
 			</td>
 		</tr>
 
 <tr class="row-odd"><td>GET</td>
 <td>/user/index/</td>
 <td class="left">comm_id : 社區ID<br /> app_id : 住戶App ID</td>
-<td>取得指定的住戶資訊<br /> (簡單個資與權限)</td>
-</tr>
-<tr class="row-even"><td>POST</td>
-<td>/user/activate/</td>
-<td class="left">comm_id : 社區ID<br /> id : 住戶ID <br /> app_id : 住戶App ID</td>
-<td>住戶APP開通</td>
+<td>取得指定住戶的資訊<br /> (簡單個資與權限)</td>
 </tr>
 
 </tbody>
 </table>
+	<div style="color:#0033cc">必須先執行『住戶APP開通』，目前有兩組可提供測試開通；待開通完成後才能執行『住戶登入』以及『取得指定住戶資訊』作業：
+	<p>第一組
+	comm_id: <span style="color:red">5tgb4rfv</span>
+	act_code: <span style="color:red">586065862276</span>
+	<p>第二組
+	comm_id: <span style="color:red">5tgb4rfv</span>
+	act_code: <span style="color:red">132990982672</span>
+	</div>
 </div>
 
 

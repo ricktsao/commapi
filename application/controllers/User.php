@@ -158,7 +158,7 @@ class User extends REST_Controller {
     public function activate_post()
     {		
 		$comm_id = tryGetData('comm_id', $_POST, NULL);
-		$id = tryGetData('id', $_POST, NULL);
+		$act_code = tryGetData('act_code', $_POST, NULL);
 		$app_id = tryGetData('app_id', $_POST, NULL);
 
         if ( isNull($comm_id) && isNull($id) && isNull($app_id) ) {
@@ -174,7 +174,7 @@ class User extends REST_Controller {
 					.'  FROM sys_user '
 					.' WHERE role = "I" '
 					.'   AND comm_id="'.$comm_id.'" '
-					.'   AND id="'.$id.'" '
+					.'   AND act_code="'.$act_code.'" '
 					.'   AND app_id IS NULL or app_id ="" '	//.$this->it_model->getEffectedSQL('rent_house');
 					;
 			$result = $this->it_model->runSql($query);
@@ -192,7 +192,7 @@ class User extends REST_Controller {
 
 				$arr_return = $this->it_model->updateDB( "sys_user" 
 														, $arr_data
-														, 'role = "I" AND comm_id="'.$comm_id.'" AND id="'.$id.'" ' );
+														, 'role = "I" AND comm_id="'.$comm_id.'" AND act_code="'.$act_code.'" ' );
 				//dprint($this->db->last_query());
 				if($arr_return['success'])
 				{
