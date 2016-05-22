@@ -242,6 +242,8 @@ class Voting extends REST_Controller {
 		$app_id =  tryGetData('app_id', $_POST, NULL);
 		
 
+
+
 		if(isNull($comm_id) || isNull($option_sn) || isNull($voting_sn) || isNull($app_id)){
 
 			 $this->set_response([
@@ -252,23 +254,24 @@ class Voting extends REST_Controller {
 		}else{
 			//get user_sn
 			//get user
-			$query = "SELECT client_sn FROM sys_user WHERE comm_id='".$comm_id."' AND app_id ='".$app_id."'";
+			$query = "SELECT client_sn,id FROM sys_user WHERE comm_id='".$comm_id."' AND app_id ='".$app_id."'";
 			$member_sn = $this->it_model->runSql($query);
 
 			if($member_sn['count']==0){
 				 $this->set_response([
 	                'status' => FALSE,
-	                'message' => '缺少必要資料，請確認'
+	                'message' => '找不到此用戶資訊'
 	            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 			}
 
+			$member_id =  $member_sn['data'][0]['id'];
 			$member_sn = $member_sn['data'][0]['client_sn'];
 
 			$option_sn = explode(",",$option_sn);
 
 			for($i=0;$i<count($option_sn);$i++){
 
-				 $this->Voting_model->frontendGetVotingUpdate($voting_sn,$option_sn[$i],$member_sn ,$comm_id);
+				 $this->Voting_model->frontendGetVotingUpdate($voting_sn,$option_sn[$i],$member_sn ,$member_id,$comm_id);
 
 			}
 
