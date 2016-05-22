@@ -155,6 +155,38 @@ class User extends REST_Controller {
 		}
 	}
 
+
+	public function community_get()
+    {
+			$result = $this->it_model->listData( "community" , "status = 1" , NULL , NULL , array("name"=>"desc") );
+
+			if ($result['count'] > 0) {
+				$ajax_ary = array();
+				foreach ($result["data"] as $data) 
+				{
+					$tmp_data = array("comm_name"		=>	$data["name"]
+									, "comm_id"	=>	$data["id"]				
+									);
+					
+					array_push($ajax_ary, $tmp_data);
+				}
+
+				$this->set_response($ajax_ary, REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code	
+			} 
+			else 
+			{
+
+				// Set the response and exit
+				$this->response([
+					'status' => FALSE,
+					'message' => '找不到任何資訊，請確認'
+				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+
+			}
+	}
+	
+
+
     public function activate_post()
     {		
 		$comm_id = tryGetData('comm_id', $_POST, NULL);

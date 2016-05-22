@@ -135,11 +135,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </tr>
 </thead>
 <tbody valign="top">
+
+<tr class="row-even"><td>GET</td>
+<td>/user/community/</td>
+<td class="left">-</td>
+<td>取得社區清單</td>
+</tr>
 <tr class="row-even"><td>POST</td>
 <td>/user/activate/</td>
 <td class="left">comm_id : 社區ID<br /> act_code : APP 開通碼 <br /> app_id : 住戶App ID</td>
 <td>住戶APP開通</td>
 </tr>
+
 		<tr class="row-even"><td>POST</td>
 			<td>/user/login</td>
 			<td class="left">
@@ -162,10 +169,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div style="color:#0033cc">必須先執行『住戶APP開通』，目前有兩組可提供測試開通；待開通完成後才能執行『住戶登入』以及『取得指定住戶資訊』作業：
 	<p>第一組
 	comm_id: <span style="color:red">5tgb4rfv</span>
-	act_code: <span style="color:red">586065862276</span>
+	act_code: <span style="color:red">586065862276</span> (住戶姓名：秦子奇)
 	<p>第二組
 	comm_id: <span style="color:red">5tgb4rfv</span>
-	act_code: <span style="color:red">132990982672</span>
+	act_code: <span style="color:red">132990982672</span> (住戶姓名：沈杏仁)
 	</div>
 </div>
 
