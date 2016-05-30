@@ -229,7 +229,7 @@ class User extends REST_Controller {
 				if($arr_return['success'])
 				{
 					$this->set_response([
-						'status' => FALSE,
+						'status' => TRUE,
 						'message' => '您的APP已經開通'
 					], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code		
 				}
