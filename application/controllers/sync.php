@@ -480,8 +480,11 @@ class Sync extends CI_Controller {
 	
 	public function fileUpload()
 	{
+		dprint("-------------");
+dprint($_FILES);die;
 		foreach( $_FILES as $key => $file )
 		{
+dprint($file);
 			if(isNotNull($file['name']))
 			{
 				$key_ary = explode("<#-#>",$key);
@@ -492,7 +495,7 @@ class Sync extends CI_Controller {
 				$comm_id = $key_ary[0];
 				$folder = $key_ary[1];			
 				
-				
+dprint($key_ary);
 				if (!is_dir(set_realpath("upload/".$comm_id)))
 				{
 					mkdir(set_realpath("upload/".$comm_id),0777);
@@ -505,17 +508,17 @@ class Sync extends CI_Controller {
 					if (mb_substr($folder, 0, 9) == 'house_to_') {
 
 						$folder_level = explode("/", $folder);
-//dprint($folder_level);
+ dprint($folder_level);
 
 						if (!is_dir(set_realpath("upload/".$comm_id."/".$folder_level[0])))
 						{
-//dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]));
+ dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]));
 							mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]),0777);
 						}
 						
 						if (!is_dir(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1])))
 						{
-//@dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]));
+ dprint(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]));
 
 							mkdir(set_realpath("upload/".$comm_id."/".$folder_level[0]."/".$folder_level[1]),0777);
 						}
@@ -526,22 +529,24 @@ class Sync extends CI_Controller {
 					}
 
 				}
-				
+
 				//圖片處理 img_filename	
 				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
 
-//$uploadedUrl = "C:/wamp2/www/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
+$uploadedUrl = "C:\\wamp2\\www\\commapi\\upload\\".$comm_id."\\".$folder."\\".$file['name'];
 
 				$moved = move_uploaded_file( $file['tmp_name'], $uploadedUrl);
 
+				  echo $file['tmp_name'];
+				  echo $uploadedUrl;
 				
 				if( $moved ) {
-				  echo "Successfully uploaded";         
+				  echo "Successfully uploaded ";
 				} else {
 				  echo "Not uploaded because of error #";dprint($_FILES);
 				}
 				
-
+die;
 				
 			}		
 		}	
