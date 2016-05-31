@@ -63,8 +63,16 @@ class Course extends REST_Controller {
 				{
 					$img_url = "";
 					if(isNotNull(tryGetData("img_filename",$news_info)))
-					{
-						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/course/".$news_info["img_filename"];
+					{	
+						if(isNotNull(tryGetData("edoma_sn",$news_info)))
+						{
+							$img_url = $this->config->item("api_server_url")."upload/edoma/course/".$news_info["img_filename"];
+						}
+						else
+						{
+							$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/course/".$news_info["img_filename"];
+						}
+						
 					}	
 					
 					$money_string = '';

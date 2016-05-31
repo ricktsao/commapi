@@ -63,7 +63,15 @@ class Ad extends REST_Controller {
 					$img_url = "";
 					if(isNotNull(tryGetData("img_filename",$news_info)))
 					{
-						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/ad/".$news_info["img_filename"];
+						if(isNotNull(tryGetData("edoma_sn",$news_info)))
+						{
+							$img_url = $this->config->item("api_server_url")."upload/edoma/ad/".$news_info["img_filename"];
+						}
+						else
+						{
+							$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/ad/".$news_info["img_filename"];
+						}
+						
 					}	
 					
 					$tmp_data = array
