@@ -531,6 +531,7 @@ class Sync extends CI_Controller {
 				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
 
 //$uploadedUrl = "C:/wamp2/www/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
+//$uploadedUrl = "C:/wamp/www/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
 
 				$moved = move_uploaded_file( $file['tmp_name'], $uploadedUrl);
 
@@ -713,16 +714,17 @@ class Sync extends CI_Controller {
 			$arr_data[$key] = $value;			
 		}
 
-		if($this->it_model->updateData( "house_to_rent_photo" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+		if($this->it_model->updateData( "house_to_rent_photo" , $arr_data, "client_sn ='".$edit_data["sn"]."' " ))
 		{
 			//echo $this->db->last_query();
 			echo '1';
 
 		} else  {
 
-			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			//$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
 			$edit_data["client_sn"] = tryGetData("sn",$edit_data);	
 			unset($edit_data['sn']);
+			unset($edit_data['comm_id']);
 			
 			$content_sn = $this->it_model->addData( "house_to_rent_photo" , $edit_data );
 
@@ -766,16 +768,17 @@ class Sync extends CI_Controller {
 			$arr_data[$key] = $value;			
 		}
 
-		if($this->it_model->updateData( "house_to_sale_photo" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+		if($this->it_model->updateData( "house_to_sale_photo" , $arr_data, "client_sn ='".$edit_data["sn"]."' " ))
 		{
 			//echo $this->db->last_query();
 			echo '1';
 
 		} else  {
 
-			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
+			//$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
 			$edit_data["client_sn"] = tryGetData("sn",$edit_data);	
 			unset($edit_data['sn']);
+			unset($edit_data['comm_id']);
 			
 			$content_sn = $this->it_model->addData( "house_to_sale_photo" , $edit_data );
 

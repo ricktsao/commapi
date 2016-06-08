@@ -472,12 +472,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>GET</td>
-<td>/rent/index/</td>
+<td>/Rent_House/index/</td>
 <td class="left">comm_id : 社區ID</td>
 <td>取得所有租屋資訊列表</td>
 </tr>
 <tr class="row-odd"><td>GET</td>
-<td>/rent/index/</td>
+<td>/Rent_House/index/</td>
 <td class="left">comm_id : 社區ID<br /> sn : 租屋資訊編號</td>
 <td>取得指定的一則租屋資訊</td>
 </tr>
@@ -490,6 +490,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </table>
 </div>
 
+<div class="section" id="defining-the-api-rents">
+<h3>售屋資訊</h3>
+<table border="1" class="docutils">
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Method</th>
+<th class="head">URL</th>
+<th class="head">Params</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GET</td>
+<td>/Sale_House/index/</td>
+<td class="left">comm_id : 社區ID</td>
+<td>取得所有售屋資訊列表</td>
+</tr>
+<tr class="row-odd"><td>GET</td>
+<td>/Sale_House/index/</td>
+<td class="left">comm_id : 社區ID<br /> sn : 售屋資訊編號</td>
+<td>取得指定的一則售屋資訊</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="defining-the-api-rents">
 	<h3>活動相簿</h3>
 	<table border="1" class="docutils">
