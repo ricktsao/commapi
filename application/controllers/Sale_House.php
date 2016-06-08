@@ -41,7 +41,7 @@ class Sale_House extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '請指定社區'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         } else {
 
@@ -145,7 +145,7 @@ class Sale_House extends REST_Controller {
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何售屋資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 			}
 		}
     }
