@@ -42,31 +42,24 @@ class Marquee extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
 		{
-			$condition = "comm_id = '".$comm_id."' and hot =1";
+			$condition = "comm_id = '".$comm_id."'";
 			
-			$news_list = $this->c_model->GetList( "news" , $condition ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
+			$news_list = $this->c_model->GetList( "marquee" , $condition ,TRUE, NULL , NULL , array("sort"=>"asc","start_date"=>"desc","sn"=>"desc") );
 			if ($news_list['count'] > 0) 
 			{
 				$ajax_ary = array();
 				foreach ($news_list["data"] as $news_info) 
 				{
-					$img_url = "";
-					if(isNotNull(tryGetData("img_filename",$news_info)))
-					{
-						$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/news/".$news_info["img_filename"];
-					}					
 					
 					$tmp_data = array
 					(				
 						"sn"=> $news_info["client_sn"],
-						"title"=> $news_info["title"],
 						"content" => $news_info["content"],
-						"img_url" => $img_url,
 						"news_date" =>  showDateFormat($news_info["start_date"])					
 					);
 					
@@ -77,12 +70,11 @@ class Marquee extends REST_Controller {
 			} 
 			else 
 			{
-
 				// Set the response and exit
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
 			}
 		}

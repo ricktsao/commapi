@@ -105,7 +105,8 @@ class Sync extends CI_Controller {
 			, "to_user_app_id" => tryGetData("to_user_app_id",$edit_data)
 			, "to_user_name" => tryGetData("to_user_name",$edit_data)	
 			, "title" => tryGetData("title",$edit_data,NULL)	
-			, "msg_content" => tryGetData("msg_content",$edit_data)			
+			, "msg_content" => tryGetData("msg_content",$edit_data)		
+			, "post_date" => tryGetData("post_date", $edit_data)		
 			, "updated" =>  date( "Y-m-d H:i:s" )
 		);
 		
@@ -531,7 +532,6 @@ class Sync extends CI_Controller {
 				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
 
 				$moved = move_uploaded_file( $file['tmp_name'], $uploadedUrl);
-
 				
 				if( $moved ) {
 				  echo "Successfully uploaded ";
@@ -540,7 +540,6 @@ class Sync extends CI_Controller {
 				} else {
 				  echo "Not uploaded because of error #";dprint($_FILES);
 				}
-				
 
 				
 			}		
@@ -549,7 +548,7 @@ class Sync extends CI_Controller {
 		//dprint($_FILES);
 	}
 	
-	// 詢問 server端檔案是否與 client端一樣，不一樣就同步，以 client為主
+	
 	public function askFile()
 	{
 		$file_string = $this->input->post("file_string",TRUE);	
@@ -689,114 +688,6 @@ class Sync extends CI_Controller {
 
 
 
-	public function updateRentHousePhoto()
-	{	
-		
-		$edit_data = array();
-		foreach( $_POST as $key => $value )
-		{
-			if ($key=='is_sync') {
-				continue;
-			}
-			$edit_data[$key] = $this->input->post($key,TRUE);			
-		}
-
-		if ( tryGetData('house_to_rent_sn', $edit_data, 0) > 0 ) {
-			$edit_data['client_house_to_rent_sn'] = $edit_data['house_to_rent_sn'];
-			unset($edit_data['house_to_rent_sn']);
-		}
-
-		
-		foreach( $edit_data as $key => $value )
-		{
-			if ( in_array($key, array('sn','comm_id')) ) {
-				continue;
-			}
-			$arr_data[$key] = $value;			
-		}
-
-		if($this->it_model->updateData( "house_to_rent_photo" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
-		{
-			//echo $this->db->last_query();
-			echo '1';
-
-		} else  {
-
-			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
-			$edit_data["client_sn"] = tryGetData("sn",$edit_data);	
-			unset($edit_data['sn']);
-			
-			$content_sn = $this->it_model->addData( "house_to_rent_photo" , $edit_data );
-
-			//echo $this->db->last_query();
-			if($content_sn > 0) {		
-				echo '1';		
-			} else {
-				echo '0';	
-			}		
-		}	
-		
-	}
-
-
-
-
-
-	public function updateSaleHousePhoto()
-	{	
-		
-		$edit_data = array();
-		foreach( $_POST as $key => $value )
-		{
-			if ($key=='is_sync') {
-				continue;
-			}
-			$edit_data[$key] = $this->input->post($key,TRUE);			
-		}
-
-		if ( tryGetData('house_to_sale_sn', $edit_data, 0) > 0 ) {
-			$edit_data['client_house_to_sale_sn'] = $edit_data['house_to_sale_sn'];
-			unset($edit_data['house_to_sale_sn']);
-		}
-
-		
-		foreach( $edit_data as $key => $value )
-		{
-			if ( in_array($key, array('sn','comm_id')) ) {
-				continue;
-			}
-			$arr_data[$key] = $value;			
-		}
-
-		if($this->it_model->updateData( "house_to_sale_photo" , $arr_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
-		{
-			//echo $this->db->last_query();
-			echo '1';
-
-		} else  {
-
-			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
-			$edit_data["client_sn"] = tryGetData("sn",$edit_data);	
-			unset($edit_data['sn']);
-			
-			$content_sn = $this->it_model->addData( "house_to_sale_photo" , $edit_data );
-
-			//echo $this->db->last_query();
-			if($content_sn > 0) {		
-				echo '1';		
-			} else {
-				echo '0';	
-			}		
-		}	
-		
-	}
-
-
-
-
-
-
-
 	public function updateSaleHouse()
 	{	
 		
@@ -837,7 +728,7 @@ class Sync extends CI_Controller {
 		$comm_id = tryGetData('comm_id', $_POST, NULL);
 		$condition = "comm_id = '".$comm_id."' and role ='I'";			
 		$user_list = $this->it_model->listData( "sys_user" , $condition );
-
+				
 		echo json_encode($user_list["data"]);
 	}
 	

@@ -232,7 +232,6 @@ class User extends REST_Controller {
 						.'   AND `role` = "I" AND `comm_id` = "'.$comm_id.'" AND `act_code` = "'.$act_code.'" ';
 				
 				$this->db->query( $query );
-				dprint( $this->db->last_query() );
 				$affected_rows = $this->db->affected_rows();
 
 				if ($affected_rows > 0)

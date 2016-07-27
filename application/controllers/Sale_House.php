@@ -41,7 +41,7 @@ class Sale_House extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '請指定社區'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         } else {
 
@@ -125,11 +125,11 @@ class Sale_House extends REST_Controller {
 					*/
 
 					// 照片
-					$condition = 'del=0 and comm_id="'.$comm_id.'" AND client_house_to_sale_sn='.$item['sn'];
+					$condition = 'del=0 AND client_house_to_sale_sn='.$item['sn'];
 					$phoresult = $this->it_model->listData('house_to_sale_photo', $condition);
 					$photos = array();
 					foreach ($phoresult['data'] as $photo) {
-						$img = base_url('upload/'.$comm_id.'/house_to_sale/'.$item['sn'].'/'.$photo['filename']);
+						$img = $this->config->item("api_server_url").'upload/'.$comm_id.'/house_to_sale/'.$item['sn'].'/'.$photo['filename'];
 						$photos[] = array('photo' => $img
 										, 'title' => $photo['title'] );
 					}
@@ -145,7 +145,7 @@ class Sale_House extends REST_Controller {
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何售屋資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 			}
 		}
     }
