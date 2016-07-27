@@ -634,6 +634,8 @@ class Sync extends CI_Controller {
 			$edit_data['name'] .= '先生';
 		}
 
+		$edit_data['updated'] = date('Y-m-d H:i:s');
+
 		if($this->it_model->updateData( "sys_user" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
 		{
 			echo '1';
