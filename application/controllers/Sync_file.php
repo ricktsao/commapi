@@ -90,9 +90,9 @@ class Sync_file extends CI_Controller
 
 				
 				if( $moved ) {
-				  echo "Successfully uploaded ";
-				  echo $file['tmp_name'];
-				  echo $uploadedUrl;
+				  //echo "Successfully uploaded ";
+				  //echo $file['tmp_name'];
+				  //echo $uploadedUrl;
 				} else {
 				  echo "Not uploaded because of error #";dprint($_FILES);
 				}
