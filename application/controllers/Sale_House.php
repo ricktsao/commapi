@@ -125,7 +125,7 @@ class Sale_House extends REST_Controller {
 					*/
 
 					// ทำค๙
-					$condition = 'del=0 AND client_house_to_sale_sn='.$item['sn'];
+					$condition = 'del=0 AND house_to_sale_sn='.$item['sn'];
 					$phoresult = $this->it_model->listData('house_to_sale_photo', $condition);
 					$photos = array();
 					foreach ($phoresult['data'] as $photo) {

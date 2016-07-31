@@ -529,7 +529,8 @@ class Sync extends CI_Controller {
 				}
 				
 				//圖片處理 img_filename	
-				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
+				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder.$file['name'];
+//$uploadedUrl = "C:/wamp2/www/commapi/upload/".$comm_id."/".$folder.$file['name'];
 
 				$moved = move_uploaded_file( $file['tmp_name'], $uploadedUrl);
 				
@@ -549,6 +550,11 @@ class Sync extends CI_Controller {
 	}
 	
 	
+	public function here()
+	{
+	dprint('here');
+	}
+
 	public function askFile()
 	{
 		$file_string = $this->input->post("file_string",TRUE);	
@@ -556,7 +562,7 @@ class Sync extends CI_Controller {
 		$folder = $this->input->post("folder",TRUE);	
 		
 		$upload_file_list = "";
-		
+dprint('askFile = = = ');
 		if(isNotNull($comm_id) && isNotNull($folder) )
 		{
 			if (is_dir(set_realpath("upload/".$comm_id."/".$folder)))
@@ -578,7 +584,9 @@ class Sync extends CI_Controller {
 				$upload_file_ary = array_diff($client_file_ary,$server_file_ary);				
 				$upload_file_list = implode(",",$upload_file_ary);
 				//----------------------------------------------------------------
-				
+
+dprint($upload_file_list);
+dprint($server_folder);
 				//server 上需要刪除的檔案
 				//----------------------------------------------------------------
 				$del_file_ary = array_diff($server_file_ary,$client_file_ary);
@@ -718,6 +726,89 @@ class Sync extends CI_Controller {
 		}	
 		
 	}
+
+
+	public function updateRentHousePhoto()
+	{	
+		
+		$edit_data = array();
+		foreach( $_POST as $key => $value )
+		{
+			if ($key=='is_sync') {
+				continue;
+			}
+			$edit_data[$key] = $this->input->post($key,TRUE);
+		}
+
+//dprint('sync  updateSaleHousePhoto +++');
+//dprint($edit_data);
+		$client_sn = $edit_data["sn"];
+		unset($edit_data['sn']);
+
+		if($this->it_model->updateData( "house_to_rent_photo" 
+										, $edit_data
+										, "client_sn ='".$client_sn."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ) )
+		{
+			echo '1';
+
+		} else  {
+
+			$edit_data["comm_id"] = tryGetData("comm_id", $edit_data);
+			$edit_data["client_sn"] = tryGetData("sn", $edit_data);
+			$content_sn = $this->it_model->addData( "house_to_rent_photo" , $edit_data );
+
+			if($content_sn > 0) {		
+				echo '1';		
+			} else {
+				echo '0';	
+			}		
+		}	
+		
+	}
+
+
+	public function updateSaleHousePhoto()
+	{	
+		
+		$edit_data = array();
+		foreach( $_POST as $key => $value )
+		{
+			if ($key=='is_sync') {
+				continue;
+			}
+			$edit_data[$key] = $this->input->post($key,TRUE);
+		}
+
+//dprint('sync  updateSaleHousePhoto +++');
+//dprint($edit_data);
+		$client_sn = $edit_data["sn"];
+		unset($edit_data['sn']);
+
+		if($this->it_model->updateData( "house_to_sale_photo" 
+										, $edit_data
+										, "client_sn ='".$client_sn."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ) )
+		{
+			echo '1';
+
+		} else  {
+
+			$edit_data["comm_id"] = tryGetData("comm_id", $edit_data);
+			$edit_data["client_sn"] = tryGetData("sn", $edit_data);
+			$content_sn = $this->it_model->addData( "house_to_sale_photo" , $edit_data );
+
+			if($content_sn > 0) {		
+				echo '1';		
+			} else {
+				echo '0';	
+			}		
+		}	
+		
+	}
+
+
+
+
+
 
 	
 	/**
