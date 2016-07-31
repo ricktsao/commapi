@@ -535,11 +535,11 @@ class Sync extends CI_Controller {
 				$moved = move_uploaded_file( $file['tmp_name'], $uploadedUrl);
 				
 				if( $moved ) {
-				  echo "Successfully uploaded ";
-				  echo $file['tmp_name'];
-				  echo $uploadedUrl;
+				  //echo "Successfully uploaded ";
+				  //echo $file['tmp_name'];
+				  //echo $uploadedUrl;
 				} else {
-				  echo "Not uploaded because of error #";dprint($_FILES);
+				 // echo "Not uploaded because of error #";dprint($_FILES);
 				}
 
 				
@@ -717,84 +717,6 @@ dprint($server_folder);
 			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
 			$edit_data["client_sn"] = tryGetData("sn",$edit_data);			
 			$content_sn = $this->it_model->addData( "house_to_sale" , $edit_data );
-
-			if($content_sn > 0) {		
-				echo '1';		
-			} else {
-				echo '0';	
-			}		
-		}	
-		
-	}
-
-
-	public function updateRentHousePhoto()
-	{	
-		
-		$edit_data = array();
-		foreach( $_POST as $key => $value )
-		{
-			if ($key=='is_sync') {
-				continue;
-			}
-			$edit_data[$key] = $this->input->post($key,TRUE);
-		}
-
-//dprint('sync  updateSaleHousePhoto +++');
-//dprint($edit_data);
-		$client_sn = $edit_data["sn"];
-		unset($edit_data['sn']);
-
-		if($this->it_model->updateData( "house_to_rent_photo" 
-										, $edit_data
-										, "client_sn ='".$client_sn."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ) )
-		{
-			echo '1';
-
-		} else  {
-
-			$edit_data["comm_id"] = tryGetData("comm_id", $edit_data);
-			$edit_data["client_sn"] = tryGetData("sn", $edit_data);
-			$content_sn = $this->it_model->addData( "house_to_rent_photo" , $edit_data );
-
-			if($content_sn > 0) {		
-				echo '1';		
-			} else {
-				echo '0';	
-			}		
-		}	
-		
-	}
-
-
-	public function updateSaleHousePhoto()
-	{	
-		
-		$edit_data = array();
-		foreach( $_POST as $key => $value )
-		{
-			if ($key=='is_sync') {
-				continue;
-			}
-			$edit_data[$key] = $this->input->post($key,TRUE);
-		}
-
-//dprint('sync  updateSaleHousePhoto +++');
-//dprint($edit_data);
-		$client_sn = $edit_data["sn"];
-		unset($edit_data['sn']);
-
-		if($this->it_model->updateData( "house_to_sale_photo" 
-										, $edit_data
-										, "client_sn ='".$client_sn."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ) )
-		{
-			echo '1';
-
-		} else  {
-
-			$edit_data["comm_id"] = tryGetData("comm_id", $edit_data);
-			$edit_data["client_sn"] = tryGetData("sn", $edit_data);
-			$content_sn = $this->it_model->addData( "house_to_sale_photo" , $edit_data );
 
 			if($content_sn > 0) {		
 				echo '1';		

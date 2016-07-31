@@ -184,7 +184,7 @@ class Sync_file extends CI_Controller
 		} else  {
 
 			$edit_data["comm_id"] = tryGetData("comm_id", $edit_data);
-			$edit_data["client_sn"] = tryGetData("sn", $edit_data);
+			$edit_data["client_sn"] = $client_sn;
 			$content_sn = $this->it_model->addData( "house_to_rent_photo" , $edit_data );
 
 			if($content_sn > 0) {		
@@ -223,7 +223,7 @@ class Sync_file extends CI_Controller
 		} else  {
 
 			$edit_data["comm_id"] = tryGetData("comm_id", $edit_data);
-			$edit_data["client_sn"] = tryGetData("sn", $edit_data);
+			$edit_data["client_sn"] = $client_sn;
 			$content_sn = $this->it_model->addData( "house_to_sale_photo" , $edit_data );
 
 			if($content_sn > 0) {		
