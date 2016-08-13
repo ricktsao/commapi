@@ -52,7 +52,7 @@ class Sys_news extends REST_Controller {
 		else 
 		{
 			$condition = "comm_id like '%".$comm_id."%' ";
-			if( isNotNull($_sn) )
+			if( isNotNull($sn) )
 			{
 				$condition .= "and sn = '".$sn."'";
 			}
@@ -71,7 +71,7 @@ class Sys_news extends REST_Controller {
 					
 					$tmp_data = array
 					(				
-						"sn"=> $news_info["client_sn"],
+						"sn"=> $news_info["sn"],
 						"title"=> $news_info["title"],
 						"content" => $news_info["content"],
 						"img_url" => $img_url,
