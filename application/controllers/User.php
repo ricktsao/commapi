@@ -31,12 +31,12 @@ class User extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
-    public function index_get()
+    public function index_post()
     {
 		/* http://localhost/commapi/user/index/?comm_id=5tgb4rfv&id=1234567891&app_id=666777888 */
 
-		$comm_id = tryGetData('comm_id', $_GET, NULL);
-		$app_id = tryGetData('app_id', $_GET, NULL);
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$app_id = tryGetData('app_id', $_POST, NULL);
 
         if ( isNull($comm_id) && isNull($app_id) ) {
 
