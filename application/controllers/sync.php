@@ -529,8 +529,19 @@ class Sync extends CI_Controller {
 				}
 				
 				//圖片處理 img_filename	
-				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder."/".$file['name'];				
-				move_uploaded_file( $file['tmp_name'], $uploadedUrl);
+				$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder.$file['name'];
+//$uploadedUrl = "C:/wamp2/www/commapi/upload/".$comm_id."/".$folder.$file['name'];
+
+				$moved = move_uploaded_file( $file['tmp_name'], $uploadedUrl);
+				
+				if( $moved ) {
+				  //echo "Successfully uploaded ";
+				  //echo $file['tmp_name'];
+				  //echo $uploadedUrl;
+				} else {
+				 // echo "Not uploaded because of error #";dprint($_FILES);
+				}
+
 				
 			}		
 		}	
@@ -539,6 +550,11 @@ class Sync extends CI_Controller {
 	}
 	
 	
+	public function here()
+	{
+	dprint('here');
+	}
+
 	public function askFile()
 	{
 		$file_string = $this->input->post("file_string",TRUE);	
@@ -546,7 +562,7 @@ class Sync extends CI_Controller {
 		$folder = $this->input->post("folder",TRUE);	
 		
 		$upload_file_list = "";
-		
+dprint('askFile = = = ');
 		if(isNotNull($comm_id) && isNotNull($folder) )
 		{
 			if (is_dir(set_realpath("upload/".$comm_id."/".$folder)))
@@ -568,7 +584,9 @@ class Sync extends CI_Controller {
 				$upload_file_ary = array_diff($client_file_ary,$server_file_ary);				
 				$upload_file_list = implode(",",$upload_file_ary);
 				//----------------------------------------------------------------
-				
+
+dprint($upload_file_list);
+dprint($server_folder);
 				//server 上需要刪除的檔案
 				//----------------------------------------------------------------
 				$del_file_ary = array_diff($server_file_ary,$client_file_ary);
@@ -628,6 +646,7 @@ class Sync extends CI_Controller {
 		unset($edit_data["sn"]);
 
 		if($this->it_model->updateData( "sys_user" , $edit_data, "client_sn ='".$client_sn."' AND comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+
 		{
 			echo '1';
 
@@ -710,6 +729,11 @@ class Sync extends CI_Controller {
 		}	
 		
 	}
+
+
+
+
+
 
 	
 	/**
