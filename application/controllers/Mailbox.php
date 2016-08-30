@@ -40,7 +40,7 @@ class Mailbox extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
@@ -49,12 +49,22 @@ class Mailbox extends REST_Controller {
 			if($sys_user["count"]>0)
 			{
 				$sys_user = $sys_user["data"][0];
+				$building_id = $sys_user["building_id"];
+				$building_id_ary = explode("_",$building_id);
+				$building_id_pre = "-";
+				if(count($building_id_ary)==3)
+				{
+					$building_id_pre = $building_id_ary[0]."_".$building_id_ary[1];
+				}
 				
-				$condition = "comm_id = '".$comm_id."' and user_sn = '".$sys_user["sn"]."' ";		
+				
+				$condition = "comm_id = '".$comm_id."' and user_building_id like '".$building_id_pre."_%'";		
 			
 			
 				$mailbox_list = $this->it_model->listData( "mailbox" , $condition , NULL , NULL , array("updated"=>"desc") );
-
+				
+				//echo ;
+				
 				if ($mailbox_list['count'] > 0) 
 				{
 					$ajax_ary = array();

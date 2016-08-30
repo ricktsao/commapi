@@ -46,13 +46,13 @@ class Sys_news extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
 		{
 			$condition = "comm_id like '%".$comm_id."%' ";
-			if( isNotNull($_sn) )
+			if( isNotNull($sn) )
 			{
 				$condition .= "and sn = '".$sn."'";
 			}
@@ -71,7 +71,7 @@ class Sys_news extends REST_Controller {
 					
 					$tmp_data = array
 					(				
-						"sn"=> $news_info["client_sn"],
+						"sn"=> $news_info["sn"],
 						"title"=> $news_info["title"],
 						"content" => $news_info["content"],
 						"img_url" => $img_url,
@@ -90,7 +90,7 @@ class Sys_news extends REST_Controller {
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
 			}
 		}
