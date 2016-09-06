@@ -609,7 +609,6 @@ dprint($server_folder);
 
 
 
-
 	public function updateUser()
 	{	
 		
@@ -644,14 +643,18 @@ dprint($server_folder);
 		$edit_data['role'] = 'I';
 		$edit_data['updated'] = date('Y-m-d H:i:s');
 
-		if($this->it_model->updateData( "sys_user" , $edit_data, "client_sn ='".$edit_data["sn"]."' and comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+		$client_sn = $edit_data["sn"];
+		unset($edit_data["sn"]);
+
+		if($this->it_model->updateData( "sys_user" , $edit_data, "client_sn ='".$client_sn."' AND comm_id = '".tryGetData("comm_id", $edit_data)."' " ))
+
 		{
 			echo '1';
 
 		} else  {
 
 			$edit_data["comm_id"] = tryGetData("comm_id",$edit_data);
-			$edit_data["client_sn"] = tryGetData("sn",$edit_data);			
+			$edit_data["client_sn"] = $client_sn;			
 			$content_sn = $this->it_model->addData( "sys_user" , $edit_data );
 
 			if($content_sn > 0) {		
