@@ -46,7 +46,7 @@ class Sys_news extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
@@ -90,7 +90,7 @@ class Sys_news extends REST_Controller {
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
 			}
 		}
