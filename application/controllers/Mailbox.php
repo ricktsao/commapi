@@ -58,7 +58,7 @@ class Mailbox extends REST_Controller {
 				}
 				
 				
-				$condition = "comm_id = '".$comm_id."' and user_building_id like '".$building_id_pre."_%'";		
+				$condition = "comm_id = '".$comm_id."' and user_building_id like '".$building_id_pre."_%'  and is_receive = 0";		
 			
 			
 				$mailbox_list = $this->it_model->listData( "mailbox" , $condition , NULL , NULL , array("updated"=>"desc") );
