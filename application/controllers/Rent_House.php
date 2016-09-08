@@ -49,7 +49,7 @@ class Rent_House extends REST_Controller {
 			
 			if ( isNotNull($sn) ) {
 				// If the sn parameter doesn't exist return all the rents
-				$condition .= ' AND sn = '.$sn;
+				$condition .= ' AND client_sn = '.$sn;
 			}
 
 			$result = $this->it_model->listData('house_to_rent', $condition);
@@ -131,12 +131,13 @@ class Rent_House extends REST_Controller {
 
 
 					// 照片
-					$condition = 'del=0 AND house_to_rent_sn='.$item['sn'];
-					$phoresult = $this->it_model->listData('house_to_rent_photo', $condition);
+					$condition = 'del=0 AND client_sn='.$item['client_sn'];
+					$phoresult = $this->it_model->listData('house_to_rent_photo', $condition, NULL, NULL, array('filename'=>'asc'));
 					//dprint($phoresult);
 					$photos = array();
 					foreach ($phoresult['data'] as $photo) {
-						$img = $this->config->item("api_server_url").'upload/'.$comm_id.'/house_to_rent/'.$item['sn'].'/'.$photo['filename'];
+						$client_house_to_rent_sn = $photo['client_sn'];
+						$img = $this->config->item("api_server_url").'upload/'.$comm_id.'/house_to_rent/'.$client_house_to_rent_sn.'/'.$photo['filename'];
 						$photos[] = array('photo' => $img
 										, 'title' => $photo['title'] );
 					}
