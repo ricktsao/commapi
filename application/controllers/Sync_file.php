@@ -84,7 +84,7 @@ class Sync_file extends CI_Controller
 				
 				//圖片處理 img_filename	
 				//$uploadedUrl = "/share/MD0_DATA/Web/commapi/upload/".$comm_id."/".$folder.$file['name'];
-				$uploadedUrl = "/home/edoma/public_html/commapi/upload/".$comm_id."/".$folder.$file['name'];
+				$uploadedUrl = "/home/edoma/public_html/commapi/upload/".$comm_id."/".$folder."/".$file['name'];
 //$uploadedUrl = "C:/wamp2/www/commapi/upload/".$comm_id."/".$folder.$file['name'];
 
 				$moved = move_uploaded_file( $file['tmp_name'], $uploadedUrl);
