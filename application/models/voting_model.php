@@ -131,7 +131,7 @@ Class Voting_model extends IT_Model
 					voting_option.text 
 					FROM voting_option 
 					LEFT JOIN 
-    				(select option_sn,count(*) as voting_count from voting_record group by option_sn) AS vr ON voting_option.client_sn = vr.option_sn
+    				(select option_sn,count(*) as voting_count from voting_record where comm_id = '".$comm_id."'  group by option_sn) AS vr ON voting_option.client_sn = vr.option_sn
 					WHERE voting_option.voting_sn = ".$voting_sn." AND voting_option.is_del=0 AND comm_id = '".$comm_id."'";
 
 		//echo $sql;die();
