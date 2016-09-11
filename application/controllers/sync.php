@@ -772,7 +772,7 @@ dprint($server_folder);
 				echo '0';	
 			}		
 		}
-		dprint('updateRentHousePhoto # '.$this->db->last_query());
+		//dprint('### updateRentHousePhoto :: '.$this->db->last_query());
 		
 	}
 
