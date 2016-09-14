@@ -115,17 +115,19 @@ Class Voting_model extends IT_Model
 					"start_date" => $re['start_date'],
 					"end_date" => $re['end_date'],				
 					"options" => array(),
-					"creater_user"=>null);
+					"creater_user"=> $re['user_name']);
 
 
+/*
 		if($re['user_sn']!=''){
 			$query = "SELECT name FROM sys_user WHERE client_sn = ".$re['user_sn']." AND comm_id='".$comm_id."'";
 			$post_user = $this->it_model->runSql($query);
+			//print_r($post_user);
 			if($post_user['count'] > 0){
 				$data['creater_user'] = $post_user['data'][0]['name'];
 			}
 		}
-
+*/
 		$sql ="SELECT voting_option.client_sn AS option_sn,					
 					IFNULL(voting_count,0) as voting_count,
 					voting_option.text 

@@ -101,7 +101,7 @@ class Voting extends REST_Controller {
 					start_date,
 					end_date,
 					is_multiple,
-					user_sn
+					user_sn, user_name
 					FROM voting WHERE client_sn=".$sn." AND is_del = 0 AND comm_id ='".$comm_id."'";
 
 			$voting = $this->it_model->runSql($query);
@@ -112,6 +112,9 @@ class Voting extends REST_Controller {
 
 				$voting = $voting['data'][0];
 
+				$voting['creater_user'] = $voting['user_name'];
+				
+				/*				
 				//get post_user
 				if($voting['user_sn']!=''){
 
@@ -123,6 +126,7 @@ class Voting extends REST_Controller {
 						$voting['creater_user'] = NULL;
 					}
 				}
+				*/
 
 				unset($voting['user_sn']);
 
