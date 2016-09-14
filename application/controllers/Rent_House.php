@@ -131,7 +131,7 @@ class Rent_House extends REST_Controller {
 
 
 					// 照片
-					$condition = 'del=0 AND client_sn='.$item['client_sn'];
+					$condition = 'del=0 AND comm_id="'.$comm_id.'" AND client_sn='.$item['client_sn'];
 					$phoresult = $this->it_model->listData('house_to_rent_photo', $condition, NULL, NULL, array('filename'=>'asc'));
 					//dprint($phoresult);
 					$photos = array();

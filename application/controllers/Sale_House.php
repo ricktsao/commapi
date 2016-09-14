@@ -125,8 +125,9 @@ class Sale_House extends REST_Controller {
 					*/
 
 					// ทำค๙
-					$condition = 'del=0 AND client_sn='.$item['client_sn'];
+					$condition = 'del=0  AND comm_id="'.$comm_id.'" AND client_sn='.$item['client_sn'];
 					$phoresult = $this->it_model->listData('house_to_sale_photo', $condition, NULL, NULL, array('filename'=>'asc'));
+					//dprint($phoresult['sql']);
 					$photos = array();
 					foreach ($phoresult['data'] as $photo) {
 						$client_house_to_sale_sn = $photo['client_sn'];
