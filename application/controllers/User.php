@@ -47,7 +47,8 @@ class User extends REST_Controller {
 
         } else {
 
-			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, app_id, name, if(`gender`=2,"女","男") as gender, building_id, building_text, voting_right, gas_right '
+			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, app_id, name, if(`gender`=2,"女","男") as gender '
+					.'       , building_id, building_text, voting_right, gas_right, suggest_flag '
 					.'  FROM sys_user '
 					.' WHERE role = "I" '
 					.'   AND comm_id="'.$comm_id.'" '
