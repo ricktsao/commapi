@@ -31,12 +31,12 @@ class User extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
-    public function index_get()
+    public function index_post()
     {
 		/* http://localhost/commapi/user/index/?comm_id=5tgb4rfv&id=1234567891&app_id=666777888 */
 
-		$comm_id = tryGetData('comm_id', $_GET, NULL);
-		$app_id = tryGetData('app_id', $_GET, NULL);
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$app_id = tryGetData('app_id', $_POST, NULL);
 
         if ( isNull($comm_id) && isNull($app_id) ) {
 
@@ -47,7 +47,8 @@ class User extends REST_Controller {
 
         } else {
 
-			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, app_id, name, if(`gender`=2,"女","男") as gender, building_id, building_text, voting_right, gas_right '
+			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, app_id, name, if(`gender`=2,"女","男") as gender '
+					.'       , building_id, building_text, voting_right, gas_right, suggest_flag '
 					.'  FROM sys_user '
 					.' WHERE role = "I" '
 					.'   AND comm_id="'.$comm_id.'" '

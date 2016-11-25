@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div id="container">
     <!-- <h1>API Url Structure</h1> -->
-    <h1>API 預設網址  http://27.147.4.239/commapi/
+    <h1>API 預設網址  <span style='background-color:#ffff99; color:#f20079'>http://edoma.acsite.org/commapi/</span>
 	<br>	
 	</h1>
 	
@@ -158,7 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</td>
 		</tr>
 
-<tr class="row-odd"><td>GET</td>
+<tr class="row-odd"><td><span style='background-color:#ffff99; color:#f20079'> POST </span></td>
 <td>/user/index/</td>
 <td class="left">comm_id : 社區ID<br /> app_id : 住戶App ID</td>
 <td>取得指定住戶的資訊<br /> (簡單個資與權限)</td>

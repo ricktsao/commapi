@@ -45,7 +45,7 @@ class Sale_House extends REST_Controller {
 
         } else {
 
-			$condition = 'comm_id="'.$comm_id.'" AND '.$this->it_model->getEffectedSQL('house_to_sale');
+			$condition = 'del=0 AND comm_id="'.$comm_id.'" AND '.$this->it_model->getEffectedSQL('house_to_sale');
 			
 			if ( isNotNull($sn) ) {
 				// If the sn parameter doesn't exist return all the rents
@@ -125,13 +125,15 @@ class Sale_House extends REST_Controller {
 					*/
 
 					// ทำค๙
-					$condition = 'del=0 AND house_to_sale_sn='.$item['sn'];
-					$phoresult = $this->it_model->listData('house_to_sale_photo', $condition);
+					$condition = 'del=0  AND comm_id="'.$comm_id.'" AND client_sn='.$item['client_sn'];
+					$phoresult = $this->it_model->listData('house_to_sale_photo', $condition, NULL, NULL, array('filename'=>'asc'));
+					//dprint($phoresult['sql']);
 					$photos = array();
 					foreach ($phoresult['data'] as $photo) {
-						$img = $this->config->item("api_server_url").'upload/'.$comm_id.'/house_to_sale/'.$item['sn'].'/'.$photo['filename'];
+						$client_house_to_sale_sn = $photo['client_sn'];
+						$img = $this->config->item("api_server_url").'upload/'.$comm_id.'/house_to_sale/'.$client_house_to_sale_sn.'/'.$photo['filename'];
 						$photos[] = array('photo' => $img
-										, 'title' => $photo['title']);
+										, 'title' => $photo['title']  );
 					}
 					$item['photos'] = $photos;
 					$rents[] = $item;
