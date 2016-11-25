@@ -49,7 +49,7 @@ class Voting extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
@@ -72,7 +72,7 @@ class Voting extends REST_Controller {
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
 			}
 		}
@@ -89,7 +89,7 @@ class Voting extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
@@ -101,7 +101,7 @@ class Voting extends REST_Controller {
 					start_date,
 					end_date,
 					is_multiple,
-					user_sn
+					user_sn, user_name
 					FROM voting WHERE client_sn=".$sn." AND is_del = 0 AND comm_id ='".$comm_id."'";
 
 			$voting = $this->it_model->runSql($query);
@@ -112,6 +112,9 @@ class Voting extends REST_Controller {
 
 				$voting = $voting['data'][0];
 
+				$voting['creater_user'] = $voting['user_name'];
+				
+				/*				
 				//get post_user
 				if($voting['user_sn']!=''){
 
@@ -123,6 +126,7 @@ class Voting extends REST_Controller {
 						$voting['creater_user'] = NULL;
 					}
 				}
+				*/
 
 				unset($voting['user_sn']);
 
@@ -147,7 +151,7 @@ class Voting extends REST_Controller {
 				$this->set_response([
 	                'status' => FALSE,
 	                'message' => '缺少必要資料，請確認'
-	            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+	            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 			}
 
 
@@ -168,7 +172,7 @@ class Voting extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
@@ -188,7 +192,7 @@ class Voting extends REST_Controller {
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
 			}
 		}
@@ -205,7 +209,7 @@ class Voting extends REST_Controller {
             $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
         }
 		else 
@@ -226,7 +230,7 @@ class Voting extends REST_Controller {
 				$this->response([
 					'status' => FALSE,
 					'message' => '找不到任何資訊，請確認'
-				], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+				], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
 			}
 		}
@@ -249,7 +253,7 @@ class Voting extends REST_Controller {
 			 $this->set_response([
                 'status' => FALSE,
                 'message' => '缺少必要資料，請確認'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 
 		}else{
 			//get user_sn
@@ -261,7 +265,7 @@ class Voting extends REST_Controller {
 				 $this->set_response([
 	                'status' => FALSE,
 	                'message' => '找不到此用戶資訊'
-	            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+	            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
 			}
 
 			$member_id =  $member_sn['data'][0]['id'];

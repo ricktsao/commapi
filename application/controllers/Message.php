@@ -24,7 +24,7 @@ class Message extends REST_Controller {
         // Configure limits on our controller methods
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
         $this->methods['index_get']['limit'] = 5000; // 500 requests per hour per user/key
-        $this->methods['index_post']['limit'] = 100; // 100 requests per hour per user/key
+        $this->methods['index_post']['limit'] = 5000; // 100 requests per hour per user/key
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
@@ -52,8 +52,9 @@ class Message extends REST_Controller {
 		else 
 		{
 			$condition = "comm_id = '".$comm_id."' and to_user_app_id = '".$app_id."' ";
-			$condition .= "and now() <=  DATE_ADD(post_date, INTERVAL +30 DAY) ";
-			$condition .= "and now() >=  post_date";
+			$condition .= "and DATE_ADD(now(), INTERVAL +9 HOUR) <=  DATE_ADD(post_date, INTERVAL +728 HOUR) ";
+			$condition .= "and DATE_ADD(now(), INTERVAL +9 HOUR) >=  post_date";
+			
 			
 			if( isNotNULL($client_sn) )
 			{

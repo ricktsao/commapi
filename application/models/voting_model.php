@@ -46,7 +46,7 @@ Class Voting_model extends IT_Model
 		//runSql
 		$today = date("Y-m-d");
 
-		$sql_date  = " AND  '".$today."' >= voting.end_date ";
+		$sql_date  = " AND  '".$today."' > voting.end_date ";
 
 		
 
@@ -115,23 +115,25 @@ Class Voting_model extends IT_Model
 					"start_date" => $re['start_date'],
 					"end_date" => $re['end_date'],				
 					"options" => array(),
-					"creater_user"=>null);
+					"creater_user"=> $re['user_name']);
 
 
+/*
 		if($re['user_sn']!=''){
 			$query = "SELECT name FROM sys_user WHERE client_sn = ".$re['user_sn']." AND comm_id='".$comm_id."'";
 			$post_user = $this->it_model->runSql($query);
+			//print_r($post_user);
 			if($post_user['count'] > 0){
 				$data['creater_user'] = $post_user['data'][0]['name'];
 			}
 		}
-
+*/
 		$sql ="SELECT voting_option.client_sn AS option_sn,					
 					IFNULL(voting_count,0) as voting_count,
 					voting_option.text 
 					FROM voting_option 
 					LEFT JOIN 
-    				(select option_sn,count(*) as voting_count from voting_record group by option_sn) AS vr ON voting_option.client_sn = vr.option_sn
+    				(select option_sn,count(*) as voting_count from voting_record where comm_id = '".$comm_id."'  group by option_sn) AS vr ON voting_option.client_sn = vr.option_sn
 					WHERE voting_option.voting_sn = ".$voting_sn." AND voting_option.is_del=0 AND comm_id = '".$comm_id."'";
 
 		//echo $sql;die();
