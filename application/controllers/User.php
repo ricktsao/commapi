@@ -50,7 +50,7 @@ class User extends REST_Controller {
 			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, app_id, name, if(`gender`=2,"女","男") as gender '
 					.'       , building_id, building_text, voting_right, gas_right, suggest_flag '
 					.'  FROM sys_user '
-					.' WHERE role = "I" '
+					.' WHERE role = "I" AND del = 0 '
 					.'   AND comm_id="'.$comm_id.'" '
 					.'   AND '.'app_id="'.$app_id.'" '	//.$this->it_model->getEffectedSQL('rent_house');
 					;
@@ -92,7 +92,7 @@ class User extends REST_Controller {
 
 			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, id, app_id, app_use_cnt '
 					.'  FROM sys_user '
-					.' WHERE role = "I" '
+					.' WHERE role = "I" AND del = 0 '
 					.'   AND launch = 1 '
 					.'   AND comm_id="'.$comm_id.'" '
 					.'   AND app_id="'.$app_id.'" '	//.$this->it_model->getEffectedSQL('rent_house');
@@ -205,7 +205,7 @@ class User extends REST_Controller {
 
 			$query = 'SELECT SQL_CALC_FOUND_ROWS comm_id, id, app_id, name '
 					.'  FROM sys_user '
-					.' WHERE role = "I" '
+					.' WHERE role = "I" AND del = 0 '
 					.'   AND comm_id="'.$comm_id.'" '
 					.'   AND act_code="'.$act_code.'" '
 					.'   AND (app_id IS NULL OR app_id ="") '	//.$this->it_model->getEffectedSQL('rent_house');
