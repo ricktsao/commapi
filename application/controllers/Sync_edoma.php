@@ -67,4 +67,19 @@ class Sync_edoma extends CI_Controller {
 		}
 	}
 	
+	
+	
+	
+	/**
+	 * 查詢由edoma平台新增的富網通意見箱已回復資料
+	 * target = 1 and hot = 0  : 表示大平台已回復旦未同步
+	**/
+	public function getFeedbackContent()
+	{
+		$comm_id = tryGetData('comm_id', $_POST, NULL);
+		$condition = "comm_id = '".$comm_id."' and target = 1 and hot = 0 and content_type = 'feedback'  ";			
+		$edoma_list = $this->it_model->listData( "web_menu_content" , $condition );				
+		echo json_encode($edoma_list["data"]);
+	}
+	
 }
