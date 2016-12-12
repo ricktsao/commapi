@@ -692,6 +692,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 
+
+
+<div class="section" >
+	<h3>富網通介紹</h3>
+	<table border="1" class="docutils">
+		<thead valign="bottom">
+			<tr class="row-odd"><th class="head">Method</th>
+				<th class="head">URL</th>
+				<th class="head">Params</th>
+				<th class="head">Action</th>
+			</tr>
+		</thead>
+		<tbody valign="top">
+			<tr class="row-even"><td>GET</td>
+				<td>/about</td>
+				<td class="left"></td>
+				<td>富網通介紹</td>
+			</tr>			
+		</tbody>
+	</table>
+</div>
+
     </div>
 
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php //echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>

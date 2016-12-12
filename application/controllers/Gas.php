@@ -128,12 +128,40 @@ class Gas extends REST_Controller {
 				if(isNotNull(tryGetData("img_filename",$item_info)))
 				{
 					$img_url = $this->config->item("api_server_url")."upload/".$comm_id."/gas_company/".$item_info["img_filename"];
-					}	
+				}	
+				
+				$vender_str = '
+				<table style="width: 100%;">
+				<tbody>
+					<tr>
+						<td>公司名稱</td>
+						<td>'.$item_info["title"].'</td>
+					</tr>
+					<tr>
+						<td>地址</td>
+						<td>'.$item_info["content"].'</td>
+					</tr>
+					<tr>
+						<td>電話</td>
+						<td>'.$item_info["brief"].'</td>
+					</tr>
+					<tr>
+						<td>手機</td>
+						<td>'.$item_info["brief2"].'</td>
+					</tr>
+					<tr>
+						<td>網址</td>
+						<td>'.$item_info["url"].'</td>
+					</tr>					
+				</tbody>
+				</table>			
+				';
+				
 
 				
 				$tmp_data = array
 				(				
-					"vender_data"=> $item_info["content"],
+					"vender_data"=> $vender_str,
 					"img_url" => $img_url
 				);						
 				array_push($ajax_ary,$tmp_data);

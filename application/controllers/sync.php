@@ -833,4 +833,30 @@ dprint($server_folder);
 		echo json_encode($user_list["data"]);
 	}
 	
+	/**
+	 * 紀錄
+	**/
+	public function updateBackendLoginTimie()
+	{	
+		
+		$edit_data = array();
+		foreach( $_POST as $key => $value )
+		{			
+			$edit_data[$key] = $this->input->post($key,TRUE);
+		}
+
+		$result =  $this->it_model->updateData( "community", array("backend_login_time"=>$edit_data["backend_login_time"],"updated"=> date("Y-m-d H:i:s")), "id = '".tryGetData("comm_id", $edit_data)."' " );
+
+		if( $result )
+		{
+			echo '1';
+
+		} 
+		else  
+		{
+			echo '2';
+		}	
+		
+	}
+	
 }
