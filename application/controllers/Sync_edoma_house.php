@@ -19,7 +19,7 @@ class Sync_edoma_house extends CI_Controller {
 	**/
 	public function getEdomaHouseToSale()
 	{
-		$comm_id = '5tgb4rfv';tryGetData('comm_id', $_POST, NULL);
+		tryGetData('comm_id', $_POST, NULL);
 		$condition = "comm_id = '".$comm_id."' and edoma_sn > 0 And client_sync = 0 ";
 		$edoma_list = $this->it_model->listData( "house_to_sale" , $condition );
 
@@ -32,9 +32,15 @@ class Sync_edoma_house extends CI_Controller {
 	**/
 	public function getEdomaHouseToSalePhoto()
 	{
+	/**	$_POST = array('comm_id' => 'qazWSXed'
+    					,'edoma_house_to_sale_sn' => 5 );
+    	
+		dprint('_POST _POST');
+		dprint($_POST);
+	**/
 		$comm_id = tryGetData('comm_id', $_POST, NULL);
 		$edoma_house_to_sale_sn = tryGetData('edoma_house_to_sale_sn', $_POST, NULL);
-		$condition = "client_sync = 0 and edoma_house_to_sale_sn =".$edoma_house_to_sale_sn;
+		$condition = "client_sync = 0 aNd edoma_house_to_sale_sn =".$edoma_house_to_sale_sn;
 		$edoma_list = $this->it_model->listData( "house_to_sale_photo" , $condition );
 
 
@@ -72,15 +78,15 @@ class Sync_edoma_house extends CI_Controller {
 			, "update_date" =>  date( "Y-m-d H:i:s" )
 			,*/
 			"client_sync" =>  1
-		);		
+		);
 		
 		if($this->it_model->updateData( "web_menu_content" , $arr_data, "sn = '".$edit_data["server_sn"]."' AND comm_id = '".tryGetData("comm_id",$edit_data)."' " ))
-		{					
-			echo '1';						
+		{
+			echo '1';
 		}
 		else 
 		{
-			echo '0';	
+			echo '0';
 		}
 	}
 	
